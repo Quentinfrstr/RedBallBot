@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
+<head>
     <title>AlphaBot Streaming</title>
     <style>
-      body{
-        text-align: center;
-      }
+        body {
+            text-align: center;
+        }
 
-      #videoStream{
-        width: 50%;
-      }
+        #videoStream {
+            width: 50%;
+        }
+
+        #controlRobot {
+            width: 10%;
+        }
     </style>
-  </head>
-  <body>
-    <h1>AlphaBot Streaming</h1>
-    <img id="videoStream" src="{{ url_for('video_stream') }}">
-  </body>
+</head>
+<body>
+<h1>AlphaBot Streaming</h1>
+<img id="videoStream" src="{{ url_for('video_stream') }}">
+<div id="controlRobot">
+    <button name="arrowUp" onclick="send_cmd('forward')">↑</button>
+    <button name="arrowDown" onclick="send_cmd('backward')">↓</button>
+    <button name="arrowRight" onclick="send_cmd('right')">→</button>
+    <button name="arrowLeft" onclick="send_cmd('left')">←</button>
+    <button name="stop" onclick="send_cmd('stop')">.</button>
+</div>
+<input onchange="send_new_speed(this.value)" type="range" min="1" max="100" value="30" class="slider" id="myRange">
+<script>
+    let xhttp = new XMLHttpRequest();
+
+    function send_cmd(cmd) {
+
+        xhttp.open('GET', 'http://192.168.137.227:5001/send_cmd/' + cmd);
+        xhttp.send()
+    }
+
+    function send_new_speed(new_speed) {
+
+        xhttp.open('GET', 'http://192.168.137.227:5001/change_speed/' + new_speed)
+        xhttp.send()
+    }
+
+</script>
+</body>
 </html>

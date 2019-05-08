@@ -28,6 +28,7 @@ def index():
 
 @app.route(_URL_VIDEO_STREAM)
 def video_stream():
+    print(output.gen())
     return Response(output.gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
