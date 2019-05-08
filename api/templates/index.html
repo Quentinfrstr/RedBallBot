@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>AlphaBot Streaming</title>
+    <style>
+      body{
+        text-align: center;
+      }
+
+      #videoStream{
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AlphaBot Streaming</h1>
+    <img id="videoStream" src="{{ url_for('video_stream') }}">
+  </body>
+</html>
