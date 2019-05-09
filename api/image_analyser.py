@@ -8,7 +8,7 @@ import numpy as np
 
 
 class ImageAnalyser(object):
-    _MAX_VAlUE_RGB = 255
+    MAX_VAlUE_RGB = 255
 
     def __init__(self):
         pass
@@ -82,14 +82,14 @@ class ImageAnalyser(object):
                 print('Partie du rond en dehors de l\'image')
 
         try:
-            avg_r = sum(r_total) / len(r_total) * self._MAX_VAlUE_RGB
-            avg_g = sum(g_total) / len(g_total) * self._MAX_VAlUE_RGB
-            avg_b = sum(b_total) / len(b_total) * self._MAX_VAlUE_RGB
+            avg_r = sum(r_total) / len(r_total) * self.MAX_VAlUE_RGB
+            avg_g = sum(g_total) / len(g_total) * self.MAX_VAlUE_RGB
+            avg_b = sum(b_total) / len(b_total) * self.MAX_VAlUE_RGB
         except ArithmeticError:
             print('Tentative de division par 0')
 
         # Conditions inventées "au hasard". Marche plutôt bien
-        return avg_r > avg_b + avg_g + 30 and avg_r > 80
+        return avg_r > avg_b + avg_g + 30 and avg_r > 200
 
     @staticmethod
     def get_center_image(image):

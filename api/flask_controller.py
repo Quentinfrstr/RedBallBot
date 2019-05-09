@@ -1,18 +1,18 @@
 from flask import Flask, make_response
-
 from robot import Robot
-from image_analyser import ImageAnalyser
+from api.image_analyser import ImageAnalyser
 
-_URL_SEND_CMD = '/send_cmd/<cmd>'
-_URL_GET_LAST_BALL_INFOS = '/get_last_ball_infos'
-_URL_CHANGE_SPEED = '/change_speed/<new_speed>'
-_URL_SET_BALL_INFOS = '/set_ball_infos/<ball_infos>'
+URL_SEND_CMD = '/send_cmd/<cmd>'
+URL_GET_LAST_BALL_INFOS = '/get_last_ball_infos'
+URL_CHANGE_SPEED = '/change_speed/<new_speed>'
+URL_SET_BALL_INFOS = '/set_ball_infos/<ball_infos>'
+URL_LOCAL_SET_BALL_INFOS = '/local_set_ball_infos/<ball_infos>'
 
-_CMD_FORWARD = 'forward'
-_CMD_BACKWARD = 'backward'
-_CMD_LEFT = 'left'
-_CMD_RIGHT = 'right'
-_CMD_STOP = 'stop'
+CMD_FORWARD = 'forward'
+CMD_BACKWARD = 'backward'
+CMD_LEFT = 'left'
+CMD_RIGHT = 'right'
+CMD_STOP = 'stop'
 
 app = Flask(__name__)
 
@@ -20,11 +20,18 @@ robot = Robot()
 is_auto_mode = False
 
 analyser = ImageAnalyser()
-last_ball_infos = [600, 500, 300]
+last_ball_infos = None
 
 
-@app.route(_URL_GET_LAST_BALL_INFOS)
+@app.route(URL_GET_LAST_BALL_INFOS)
 def get_last_ball_infos():
+    """
+    Obtient les dernières informations de la position de la balle
+    Disponible par adresse http
+    :return:
+    Retourne center_x;center_y;radius si la position de la balle est connue
+    Sinon, envoie None
+    """
     if last_ball_infos is not None:
         result = str(last_ball_infos[0]) + ';' + str(last_ball_infos[1]) + ';' + str(last_ball_infos[2])
     else:
@@ -32,36 +39,71 @@ def get_last_ball_infos():
     return result, 200
 
 
-@app.route(_URL_SET_BALL_INFOS)
+@app.route(URL_SET_BALL_INFOS)
 def set_ball_infos(ball_infos):
+    """
+    Défini les dernières informations de la balle (son centre et son rayon)
+    :param ball_infos: Centre X, Centre Y et rayon de la balle sous forme centre_x;centre_y;rayon
+    :return: Renvoi un code 200
+    """
     global last_ball_infos
     if ball_infos != 'None':
+        robot.stop()
         last_ball_infos = str(ball_infos).split(';')
+
+        # go_to_ball(int(last_ball_infos[0]))
     else:
         last_ball_infos = None
+        robot.left()
+
     return 'Done', 200
 
 
-@app.route(_URL_SEND_CMD)
+@app.route(URL_SEND_CMD)
 def send_cmd(cmd):
-    if cmd == _CMD_FORWARD:
+    """
+    Permet de commander le robot a distance avec les commandes suivante :
+        - forward
+        - backward
+        - left
+        - right
+        - stop
+    :param cmd: Commande que le robot doit effectuer
+    :return: Renvoi un code 200
+    """
+    if cmd == CMD_FORWARD:
         robot.forward()
-    elif cmd == _CMD_BACKWARD:
+    elif cmd == CMD_BACKWARD:
         robot.backward()
-    elif cmd == _CMD_LEFT:
+    elif cmd == CMD_LEFT:
         robot.left()
-    elif cmd == _CMD_RIGHT:
+    elif cmd == CMD_RIGHT:
         robot.right()
-    elif cmd == _CMD_STOP:
+    elif cmd == CMD_STOP:
         robot.stop()
 
     return 'Done', 200
 
 
-@app.route(_URL_CHANGE_SPEED)
+@app.route(URL_CHANGE_SPEED)
 def change_speed(new_speed):
+    """
+    Permet de modifier la vitesse du robot
+    :param new_speed: Valeur entre 0 et 100 de la vitesse
+    :return: Renvoi un code 200
+    """
     robot.change_speed(new_speed)
     return 'Done', 200
+
+
+def go_to_ball(ball_center_x):
+    """
+    Commande le robot pour qu'il aille a la balle
+    :param ball_center_x: Centre X de la balle
+    """
+    # si > que centre image + marge -> right()
+    # si < que centre image - marge -> left()
+    # sinon -> forward()
 
 
 if __name__ == '__main__':
