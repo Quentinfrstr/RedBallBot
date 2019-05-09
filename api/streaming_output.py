@@ -3,7 +3,8 @@
 # http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
 
 import io
-from threading import Condition
+import requests
+from threading import Condition, Timer
 from PIL import Image, ImageDraw
 
 
@@ -12,6 +13,8 @@ class StreamingOutput(object):
         self.frame = None
         self.buffer = io.BytesIO()
         self.condition = Condition()
+
+        self.ball_infos = None
 
     def write(self, buf):
         # Check si c'est une signature jpeg
@@ -29,17 +32,21 @@ class StreamingOutput(object):
         while True:
             frame = self.frame
             image = Image.open(io.BytesIO(frame))
+            r = requests.get('http://192.168.137.227:5001/get_last_ball_infos')
+            
+            if r.text != 'None':
+                ball_infos = str(r.text).split(';')
+                self.ball_infos = ball_infos
 
-            #if circle_infos is not None:
-            image = self.add_green_square_in_stream(image)
+                image = self.add_green_square_in_stream(image, int(self.ball_infos[0]), int(self.ball_infos[1]),
+                                                        int(self.ball_infos[2]))
             img_byte_arr = io.BytesIO()
             image.save(img_byte_arr, format='jpeg')
             img_byte_arr = img_byte_arr.getvalue()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + img_byte_arr + b'\r\n')
 
-    @staticmethod
-    def add_green_square_in_stream(image, circle_center_x=500, circle_center_y=500, radius=100):
+    def add_green_square_in_stream(self, image, circle_center_x=500, circle_center_y=500, radius=100):
         d = ImageDraw.Draw(image)
 
         top_left = (circle_center_x - radius, circle_center_y - radius)
