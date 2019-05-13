@@ -14,7 +14,14 @@ class Robot(object):
     MIN_DUTY_CYCLE = -100
 
     def __init__(self, speed=30):
+        """
+        Code repris de la classe AlphaBot2
+        Ajout de la vitesse du robot pour un controle encore meilleure
+        :param speed: Vitesse du robot
+        """
         self.speed = speed
+        self.compensation = 0
+        self.auto_mode_speed_adjustment = 0
 
         # Repris de la classe AlphaBot2, fourni avec le robot
         GPIO.setmode(GPIO.BCM)
@@ -131,4 +138,8 @@ class Robot(object):
         GPIO.cleanup()
 
     def __del__(self):
+        """
+        Effectué lorsque le programme s'arrête
+        :return:
+        """
         self.gpio_cleanup()

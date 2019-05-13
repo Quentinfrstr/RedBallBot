@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9696c3ce-8f86-4e3f-858c-1afb5b6a2621" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/api/robot_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documents/Planning_TPI_Forestier.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Documents/Planning_TPI_Forestier.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Documents/RedBallBot2_DocTech.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Documents/RedBallBot2_DocTech.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/ext_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/ext_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/flask_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/flask_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/flask_stream.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/flask_stream.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/image_analyser.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/image_analyser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/ext_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/analyser_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/flask_stream.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api/robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/robot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/streaming_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/streaming_output.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,10 +19,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/RedBallBot$AlphaBot2___Stream.coverage" NAME="AlphaBot2 - Stream Coverage Results" MODIFIED="1557728703812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
+    <SUITE FILE_PATH="coverage/RedBallBot$AlphaBot2___Stream.coverage" NAME="AlphaBot2 - Controller Coverage Results" MODIFIED="1557738703527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
     <SUITE FILE_PATH="coverage/RedBallBot$AlphaBot2___Controller.coverage" NAME="AlphaBot2 - Controller Coverage Results" MODIFIED="1557728707112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
     <SUITE FILE_PATH="coverage/RedBallBot$AlphaBot2___Analyser.coverage" NAME="AlphaBot2 - Analyser Coverage Results" MODIFIED="1557567466298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
-    <SUITE FILE_PATH="coverage/RedBallBot$Client___Analyser.coverage" NAME="Client - Analyser Coverage Results" MODIFIED="1557728741946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
+    <SUITE FILE_PATH="coverage/RedBallBot$Client___Analyser.coverage" NAME="Client - Analyser Coverage Results" MODIFIED="1557738933981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
   </component>
   <component name="FavoritesManager">
     <favorites_list name="RedBallBot" />
@@ -28,19 +30,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/flask_controller.py">
+        <entry file="file://$PROJECT_DIR$/api/robot_controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="95" column="7" lean-forward="true" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/api/flask_stream.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-272">
-              <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+            <state relative-caret-position="408">
+              <caret line="159" selection-start-line="159" selection-end-line="159" />
               <folding>
                 <element signature="e#0#61#0" expanded="true" />
               </folding>
@@ -49,19 +42,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/templates/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="46" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/streaming_output.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="45" column="44" selection-start-line="45" selection-start-column="44" selection-end-line="48" selection-end-column="49" />
+            <state relative-caret-position="374">
+              <caret line="48" column="50" lean-forward="true" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
               <folding>
                 <element signature="e#145#154#0" expanded="true" />
               </folding>
@@ -69,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/robot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="128" column="24" lean-forward="true" selection-start-line="128" selection-start-column="24" selection-end-line="128" selection-end-column="24" />
+            <state relative-caret-position="408">
+              <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -81,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/image_analyser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="96" column="34" lean-forward="true" selection-start-line="96" selection-start-column="34" selection-end-line="96" selection-end-column="34" />
+            <state relative-caret-position="34">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -91,10 +75,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/ext_client.py">
+        <entry file="file://$PROJECT_DIR$/api/analyser_controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+            <state relative-caret-position="255">
+              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -114,6 +98,10 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>make_resp</find>
+      <find>image_center</find>
+      <find>MAX</find>
+      <find>Get</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -130,13 +118,15 @@
         <option value="$PROJECT_DIR$/script/FlaskStream.py" />
         <option value="$PROJECT_DIR$/script/image_analyser.py" />
         <option value="$PROJECT_DIR$/script/flask_stream.py" />
+        <option value="$PROJECT_DIR$/api/flask_controller.py" />
+        <option value="$PROJECT_DIR$/api/image_analyser.py" />
+        <option value="$PROJECT_DIR$/api/ext_client.py" />
+        <option value="$PROJECT_DIR$/api/flask_stream.py" />
         <option value="$PROJECT_DIR$/api/templates/index.html" />
         <option value="$PROJECT_DIR$/api/streaming_output.py" />
-        <option value="$PROJECT_DIR$/api/flask_controller.py" />
+        <option value="$PROJECT_DIR$/api/analyser_controller.py" />
+        <option value="$PROJECT_DIR$/api/robot_controller.py" />
         <option value="$PROJECT_DIR$/api/robot.py" />
-        <option value="$PROJECT_DIR$/api/image_analyser.py" />
-        <option value="$PROJECT_DIR$/api/flask_stream.py" />
-        <option value="$PROJECT_DIR$/api/ext_client.py" />
       </list>
     </option>
   </component>
@@ -144,10 +134,9 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="455" />
-    <option name="y" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1010" />
+    <option name="x" value="-8" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -225,8 +214,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/ext_client.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/analyser_controller.py" />
+      <option name="PARAMETERS" value="http://192.168.137.227:5000" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -256,7 +245,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="AlphaBot2 - Stream" type="PythonConfigurationType" factoryName="Python">
+    <configuration name="AlphaBot2 - Controller" type="PythonConfigurationType" factoryName="Python">
       <module name="RedBallBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -269,7 +258,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/flask_stream.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/robot_controller.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -291,8 +280,8 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/ext_client.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/analyser_controller.py" />
+      <option name="PARAMETERS" value="http://192.168.137.227:5000" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -301,7 +290,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.AlphaBot2 - Stream" />
       <item itemvalue="Python.AlphaBot2 - Controller" />
       <item itemvalue="Python.Client - Analyser" />
       <item itemvalue="Python.AlphaBot2 - Analyser" />
@@ -327,7 +315,7 @@
       <workItem from="1557399413585" duration="13176000" />
       <workItem from="1557413015435" duration="26000" />
       <workItem from="1557565673235" duration="4121000" />
-      <workItem from="1557725867923" duration="5289000" />
+      <workItem from="1557725867923" duration="12737000" />
     </task>
     <task id="LOCAL-00001" summary="Version initiale">
       <created>1557212165630</created>
@@ -385,17 +373,24 @@
       <option name="project" value="LOCAL" />
       <updated>1557413035775</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Mise en place de filtres pour meilleures analyses d'images">
+      <created>1557732074855</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557732074855</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63371000" />
+    <option name="totallyTimeSpent" value="70819000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49266246" visible="true" weight="0.21677852" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49266246" visible="true" weight="0.21677852" />
       <window_info id="Structure" order="1" sideWeight="0.5073375" side_tool="true" weight="0.21677852" />
       <window_info id="Favorites" order="2" sideWeight="0.5021097" side_tool="true" weight="0.20067114" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -411,7 +406,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50067115" side_tool="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3286119" />
       <window_info anchor="bottom" id="Python Console" order="12" />
-      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49932885" visible="true" weight="0.3286119" />
+      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49932885" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -421,7 +416,7 @@
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49266246" visible="true" weight="0.21677852" />
-      <window_info id="Structure" order="1" sideWeight="0.5073375" side_tool="true" visible="true" weight="0.21677852" />
+      <window_info id="Structure" order="1" sideWeight="0.5073375" side_tool="true" weight="0.21677852" />
       <window_info id="Favorites" order="2" sideWeight="0.5021097" side_tool="true" weight="0.20067114" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -456,7 +451,8 @@
     <MESSAGE value="Possible de dessiner sur le stream vidéo" />
     <MESSAGE value="Analyse d'image ajoutée&#10;Le stream vidéo affiche un carré vert autour de la balle rouge." />
     <MESSAGE value="Mise a jour commentaire" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mise a jour commentaire" />
+    <MESSAGE value="Mise en place de filtres pour meilleures analyses d'images" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mise en place de filtres pour meilleures analyses d'images" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md">
@@ -475,62 +471,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/flask_controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="95" column="7" lean-forward="true" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
+        <state relative-caret-position="340">
+          <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="46" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/streaming_output.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="45" column="44" selection-start-line="45" selection-start-column="44" selection-end-line="48" selection-end-column="49" />
-          <folding>
-            <element signature="e#145#154#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/robot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="128" column="24" lean-forward="true" selection-start-line="128" selection-start-column="24" selection-end-line="128" selection-end-column="24" />
+        <state>
+          <caret column="15" lean-forward="true" selection-start-column="15" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/image_analyser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="96" column="34" lean-forward="true" selection-start-line="96" selection-start-column="34" selection-end-line="96" selection-end-column="34" />
+        <state relative-caret-position="34">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/ext_client.py">
+    <entry file="file://$PROJECT_DIR$/api/streaming_output.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        <state relative-caret-position="374">
+          <caret line="48" column="50" lean-forward="true" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="50" />
+          <folding>
+            <element signature="e#145#154#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/analyser_controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/flask_stream.py">
+    <entry file="file://$PROJECT_DIR$/api/robot_controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-272">
-          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        <state relative-caret-position="408">
+          <caret line="159" selection-start-line="159" selection-end-line="159" />
           <folding>
             <element signature="e#0#61#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/robot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
         </state>
       </provider>
     </entry>
