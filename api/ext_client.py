@@ -17,7 +17,7 @@ def get_most_likely_circle():
     :return: Le centre du cercle le plus probable
     """
 
-    # Valeur exagéré pour qu'il y est obligatoirement un cercle plus proche
+    # Valeur exagérée pour qu'il y est obligatoirement un cercle plus proche
     right_circle = (1000, 1000)
     for c in possible_circle:
         if abs(last_circle[0] - c[0]) < right_circle[0] and abs(last_circle[1] - c[1]) < \
@@ -32,14 +32,14 @@ while True:
     possible_circle = []
     last_circle = (0, 0)
 
-    r = requests.get(URL_GET_IMAGE, stream=True, timeout=0.500)
+    r = requests.get(URL_GET_IMAGE, stream=True)
     image = Image.open(io.BytesIO(r.content))
     image = np.asarray(image)
     image = analyser.image_rescale(image=image, ratio=0.1)
     image_center = analyser.get_center_image(image=image)
 
     for accums, center_x, center_y, radius in analyser.get_circle_center(
-            image=image, min_radius=2, max_radius=100, number_best_circle=5, step_radius=1):
+            image=image, min_radius=1, max_radius=50, number_best_circle=5, step_radius=1):
         circy, circx = analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
 
         if analyser.is_red_circle(image=image, circx=circx, circy=circy):

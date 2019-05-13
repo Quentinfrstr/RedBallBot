@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask
 from robot import Robot
 from api.image_analyser import ImageAnalyser
 
@@ -13,6 +13,8 @@ CMD_BACKWARD = 'backward'
 CMD_LEFT = 'left'
 CMD_RIGHT = 'right'
 CMD_STOP = 'stop'
+
+CAMERA_RESOLUTION = (int(1640 / 2), int(1232 / 2))
 
 app = Flask(__name__)
 
@@ -51,7 +53,7 @@ def set_ball_infos(ball_infos):
         robot.stop()
         last_ball_infos = str(ball_infos).split(';')
 
-        # go_to_ball(int(last_ball_infos[0]))
+        go_to_ball(int(last_ball_infos[0]))
     else:
         last_ball_infos = None
         robot.left()
@@ -101,9 +103,13 @@ def go_to_ball(ball_center_x):
     Commande le robot pour qu'il aille a la balle
     :param ball_center_x: Centre X de la balle
     """
-    # si > que centre image + marge -> right()
-    # si < que centre image - marge -> left()
-    # sinon -> forward()
+    image_center = (CAMERA_RESOLUTION[0] / 2, CAMERA_RESOLUTION[1] / 2)
+    if ball_center_x > image_center[0] + 100:
+        robot.right()
+    elif ball_center_x < image_center[0] - 100:
+        robot.left()
+    else:
+        robot.forward()
 
 
 if __name__ == '__main__':

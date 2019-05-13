@@ -10,9 +10,11 @@ URL_GET_IMAGE = '/get_image'
 URL_VIDEO_STREAM = '/video_stream'
 
 # Constantes de la caméra
-CAMERA_RESOLUTION = (int(1640 / 2), int(1232 / 2))
+CAMERA_RESOLUTION = (820, 616)
 CAMERA_ROTATION = 180
-CAMERA_SATURATION = 50
+CAMERA_SATURATION = 60
+CAMERA_BRIGHTNESS = 40
+
 
 app = Flask(__name__)
 
@@ -21,6 +23,7 @@ camera.resolution = CAMERA_RESOLUTION
 output = StreamingOutput()
 camera.rotation = CAMERA_ROTATION
 camera.saturation = CAMERA_SATURATION
+camera.brightness = CAMERA_BRIGHTNESS
 camera.start_recording(output, format='mjpeg')
 
 

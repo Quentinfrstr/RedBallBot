@@ -129,3 +129,6 @@ class Robot(object):
         Nettoye les GPIO
         """
         GPIO.cleanup()
+
+    def __del__(self):
+        self.gpio_cleanup()
