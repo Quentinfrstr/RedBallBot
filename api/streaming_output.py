@@ -4,9 +4,8 @@
 
 import io
 import requests
-from threading import Condition, Timer
+from threading import Condition
 from PIL import Image, ImageDraw
-import math
 
 
 class StreamingOutput(object):

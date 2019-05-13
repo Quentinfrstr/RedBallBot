@@ -63,6 +63,14 @@ class Robot(object):
             GPIO.output(self.BIN2, GPIO.HIGH)
             self.PWMB.ChangeDutyCycle(0 - left)
 
+    def forward_with_modification(self, left, right):
+        self.PWMA.ChangeDutyCycle(left)
+        self.PWMB.ChangeDutyCycle(right)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
     def forward(self):
         """
         Code repris de la classe AlphaBot2

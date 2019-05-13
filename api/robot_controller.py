@@ -106,10 +106,10 @@ def set_ball_infos(ball_infos):
         robot.stop()
         last_ball_infos = str(ball_infos).split(';')
 
-        go_to_ball(int(last_ball_infos[0]))
+        # go_to_ball(int(last_ball_infos[0]))
     else:
         last_ball_infos = None
-        robot.left()
+        # robot.left()
 
     return 'Done', 200
 
@@ -157,11 +157,16 @@ def go_to_ball(ball_center_x):
     :param ball_center_x: Centre X de la balle
     """
     image_center = (CAMERA_RESOLUTION[0] / 2, CAMERA_RESOLUTION[1] / 2)
-
+    diff_speed = int((ball_center_x - image_center[0]) * 0.01)
+    print(diff_speed)
     if ball_center_x > image_center[0] + MARGIN_FORWARD:
-        robot.right()
+        robot.forward_with_modification(robot.speed + diff_speed, robot.speed - diff_speed)
+        print('left ', robot.speed + diff_speed, sep=':')
+        print('right ', robot.speed - diff_speed, sep=':')
     elif ball_center_x < image_center[0] - MARGIN_FORWARD:
-        robot.left()
+        robot.forward_with_modification(robot.speed + diff_speed, robot.speed - diff_speed)
+        print('left ', robot.speed - diff_speed, sep=':')
+        print('right ', robot.speed + diff_speed, sep=':')
     else:
         robot.forward()
 

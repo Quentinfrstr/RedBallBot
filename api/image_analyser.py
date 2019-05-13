@@ -9,6 +9,8 @@ import numpy as np
 
 class ImageAnalyser(object):
     MAX_VAlUE_RGB = 255
+    LOWER_RED = np.array([30, 150, 50])
+    UPPER_RED = np.array([255, 255, 180])
 
     def __init__(self):
         pass
@@ -27,19 +29,20 @@ class ImageAnalyser(object):
         img = color.rgb2gray(image)
         image = img_as_ubyte(img)
 
+
         # Détecte les bords d'une forme grâce à un dérivé de la fonction gaussienne
         # Possibilité de modifier la precision en modifiant le sigma
         # Utilise des seuils d'hystère afin d'éviter le bruit
-        edges = canny(image, sigma=3, low_threshold=10, high_threshold=50)
+        edges = canny(image, sigma=4, low_threshold=10, high_threshold=50)
 
         hough_radii = np.arange(min_radius, max_radius, step_radius)
 
-        hough_res = hough_circle(edges, hough_radii)
+        hough_res = hough_circle(edges, hough_radii, normalize=True)
 
         # Sélectionne les N cercles les plus probables (N = numberBestCircle)
         accums, cx, cy, radii = hough_circle_peaks(hough_res, hough_radii,
                                                    total_num_peaks=number_best_circle, min_xdistance=20,
-                                                   min_ydistance=20)
+                                                   min_ydistance=20, normalize=True, )
 
         return zip(accums, cx, cy, radii)
 
