@@ -38,12 +38,12 @@ class ImageAnalyser(object):
 
         hough_radii = np.arange(min_radius, max_radius, step_radius)
 
-        hough_res = hough_circle(edges, hough_radii, normalize=True)
+        hough_res = hough_circle(edges, hough_radii)
 
         # Sélectionne les N cercles les plus probables (N = numberBestCircle)
         accums, cx, cy, radii = hough_circle_peaks(hough_res, hough_radii,
                                                    total_num_peaks=number_best_circle, min_xdistance=20,
-                                                   min_ydistance=20, normalize=True, )
+                                                   min_ydistance=20)
 
         return zip(accums, cx, cy, radii)
 
@@ -58,7 +58,7 @@ class ImageAnalyser(object):
         """
         return circle(center_y, center_x, radius)
 
-    def is_red_circle_2(self, image, circx, circy):
+    def is_red_circle(self, image, circx, circy):
         image_slice_red = image[:, :, 0]
         image_slice_green = image[:, :, 1]
         image_slice_blue = image[:, :, 2]
@@ -76,7 +76,7 @@ class ImageAnalyser(object):
                 print('Erreur d\'index')
         return counter > 50
 
-    def is_red_circle(self, image, circx, circy):
+    def is_red_circle_old(self, image, circx, circy):
         """
         Détermine si, en moyenne, le rouge est dominant dans le cercle
         :param image: L'image en couleur (float 0.1 to 1.0)

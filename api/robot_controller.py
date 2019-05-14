@@ -16,6 +16,8 @@ URL_INDEX = '/'
 URL_GET_IMAGE = '/get_image'
 URL_VIDEO_STREAM = '/video_stream'
 URL_GET_BALL_INFOS = '/get_ball_infos'
+URL_SET_COMPENSATION = '/set_compensation/<compensation>'
+URL_SET_ROBOT_MODE = '/set_robot_mode/<mode>'
 
 # Constantes des commande du controller
 CMD_FORWARD = 'forward'
@@ -32,6 +34,7 @@ CAMERA_BRIGHTNESS = 40
 
 # Constantes de déplacement
 MARGIN_FORWARD = 75
+
 app = Flask(__name__)
 
 robot = Robot()
@@ -103,13 +106,13 @@ def set_ball_infos(ball_infos):
     """
     global last_ball_infos
     if ball_infos != 'None':
-        robot.stop()
         last_ball_infos = str(ball_infos).split(';')
-
-        # go_to_ball(int(last_ball_infos[0]))
+        if is_auto_mode:
+            go_to_ball(int(last_ball_infos[0]))
     else:
         last_ball_infos = None
-        # robot.left()
+        if is_auto_mode:
+            robot.left()
 
     return 'Done', 200
 
@@ -126,18 +129,26 @@ def send_cmd(cmd):
     :param cmd: Commande que le robot doit effectuer
     :return: Renvoi un code 200
     """
-    if cmd == CMD_FORWARD:
-        robot.forward()
-    elif cmd == CMD_BACKWARD:
-        robot.backward()
-    elif cmd == CMD_LEFT:
-        robot.left()
-    elif cmd == CMD_RIGHT:
-        robot.right()
-    elif cmd == CMD_STOP:
-        robot.stop()
+    if not is_auto_mode:
+        if cmd == CMD_FORWARD:
+            robot.forward()
+        elif cmd == CMD_BACKWARD:
+            robot.backward()
+        elif cmd == CMD_LEFT:
+            robot.left()
+        elif cmd == CMD_RIGHT:
+            robot.right()
+        elif cmd == CMD_STOP:
+            robot.stop()
 
     return 'Done', 200
+
+
+@app.route(URL_SET_ROBOT_MODE)
+def set_robot_mode(mode):
+    robot.stop()
+    global is_auto_mode
+    is_auto_mode = mode == 'auto'
 
 
 @app.route(URL_CHANGE_SPEED)
@@ -148,6 +159,14 @@ def change_speed(new_speed):
     :return: Renvoi un code 200
     """
     robot.change_speed(new_speed)
+    return 'Done', 200
+
+
+@app.route(URL_SET_COMPENSATION)
+def set_compensation(compensation):
+    compensations = compensation.split(';')
+    print(compensation)
+    robot.set_compensation(float(compensations[0]), float(compensations[1]))
     return 'Done', 200
 
 

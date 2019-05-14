@@ -3,43 +3,144 @@
 <head>
     <title>AlphaBot Streaming</title>
     <style>
+
         body {
+            width: 80%;
+            margin: auto;
             text-align: center;
         }
 
-        #videoStream {
+        h1 {
+            text-align: center;
+        }
+
+        img {
             width: 50%;
         }
 
         #controlRobot {
-            width: 10%;
+            width: 100%;
         }
+
+        #direction {
+            float: left;
+            padding: 3%;
+            width: 30%;
+        }
+
+        #direction button {
+            width: 40px;
+            height: 40px;
+        }
+
+        #modeRobot {
+            float: left;
+            width: 27%;
+            padding: 3%;
+        }
+
+        #speed {
+            float: left;
+            padding: 3%;
+            width: 30%;
+        }
+
+
     </style>
 </head>
 <body>
-<h1>AlphaBot Streaming</h1>
+<h1>AlphaBot2 - RedBallBot</h1>
 <img id="videoStream" src="{{ url_for('video_stream') }}">
 <div id="controlRobot">
-    <button name="arrowUp" onclick="send_cmd('forward')">↑</button>
-    <button name="arrowDown" onclick="send_cmd('backward')">↓</button>
-    <button name="arrowRight" onclick="send_cmd('right')">→</button>
-    <button name="arrowLeft" onclick="send_cmd('left')">←</button>
-    <button name="stop" onclick="send_cmd('stop')">.</button>
+    <table id="direction">
+        <tr>
+            <td></td>
+            <td>
+                <button name="arrowUp" onclick="send_cmd('forward')">↑</button>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <button name="arrowLeft" onclick="send_cmd('left')">←</button>
+            </td>
+            <td>
+                <button name="stop" onclick="send_cmd('stop')">!</button>
+            </td>
+            <td>
+                <button name="arrowRight" onclick="send_cmd('right')">→</button>
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button name="arrowDown" onclick="send_cmd('backward')">↓</button>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="modeRobot">
+        <label>Manuel :</label>
+        <input type="radio" name="mode" checked onchange="send_new_mode(this.value)" value="manuel">
+        <br>
+        <label>Automatique :</label>
+        <input type="radio" name="mode" onchange="send_new_mode(this.value)" value="auto">
+    </div>
+    <div id="speed">
+        <table>
+            <tr>
+                <td><label id="lblSpeed">Vitesse : 30</label></td>
+                <td colspan="2"><input onchange="send_new_speed(this.value)" type="range" min="0" max="100"
+                                       value="30.00">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><label id="lblCompensation">Compensation : </label></td>
+            </tr>
+            <tr>
+                <td id="compensationLeft">Gauche : 1.00</td>
+                <td><input onchange="send_new_compensation(this.value)" type="range" min="-5" max="5" value="0.00"
+                           step="0.1">
+                </td>
+                <td id="compensationRight">Droite : 1.00</td>
+            </tr>
+        </table>
+    </div>
 </div>
-<input onchange="send_new_speed(this.value)" type="range" min="1" max="100" value="30" class="slider" id="myRange">
+
 <script>
     let xhttp = new XMLHttpRequest();
 
     function send_cmd(cmd) {
 
-        xhttp.open('GET', 'http://192.168.137.227:5000/send_cmd/' + cmd);
+        xhttp.open('GET', 'http://192.168.137.40:5000/send_cmd/' + cmd);
         xhttp.send()
     }
 
     function send_new_speed(new_speed) {
 
-        xhttp.open('GET', 'http://192.168.137.227:5000/change_speed/' + new_speed)
-        xhttp.send()
+        xhttp.open('GET', 'http://192.168.137.40:5000/change_speed/' + new_speed);
+        xhttp.send();
+
+        document.getElementById('lblSpeed').innerText = "Vitesse : " + new_speed;
+    }
+
+    function send_new_compensation(new_compensation) {
+        let compensationLeft = (1 - new_compensation / 10).toFixed(2);
+        let compensationRight = (1 + new_compensation / 10).toFixed(2);
+
+        let compensations = compensationLeft + ';' + compensationRight;
+
+        xhttp.open('GET', 'http://192.168.137.40:5000/set_compensation/' + compensations);
+        xhttp.send();
+        document.getElementById('compensationLeft').innerText = "Gauche " + compensationLeft;
+        document.getElementById('compensationRight').innerText = "Droite " + compensationRight;
+    }
+
+    function send_new_mode(new_mode) {
+        xhttp.open('GET', 'http://192.168.137.40:5000/set_robot_mode/' + new_mode);
+        xhttp.send();
     }
 
 </script>

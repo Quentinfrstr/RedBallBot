@@ -45,10 +45,7 @@ def get_last_image():
     Redimensionne l'image pour un traitement plus rapide
     :return: Image redimensionnée sous forme d'array
     """
-    r = requests.get(url_robot + URL_GET_IMAGE, stream=True)
-    image_received = Image.open(io.BytesIO(r.content))
-
-    image_received = np.asarray(image_received)
+    image_received = scikit_io.imread(url_robot + URL_GET_IMAGE)
     image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
 
     return image_received
@@ -85,7 +82,7 @@ def check_possible_circles(image_to_check):
             step_radius=STEP_RADIUS):
         circy, circx = analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
 
-        if analyser.is_red_circle_2(image=image_to_check, circx=circx, circy=circy):
+        if analyser.is_red_circle(image=image_to_check, circx=circx, circy=circy):
             kept_circles.append((center_x, center_y, radius))
 
     return kept_circles

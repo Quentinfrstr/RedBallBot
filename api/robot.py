@@ -20,7 +20,8 @@ class Robot(object):
         :param speed: Vitesse du robot
         """
         self.speed = speed
-        self.compensation = 0
+        self.compensationLeft = 1
+        self.compensationRight = 1
         self.auto_mode_speed_adjustment = 0
 
         # Repris de la classe AlphaBot2, fourni avec le robot
@@ -64,8 +65,8 @@ class Robot(object):
             self.PWMB.ChangeDutyCycle(0 - left)
 
     def forward_with_modification(self, left, right):
-        self.PWMA.ChangeDutyCycle(left)
-        self.PWMB.ChangeDutyCycle(right)
+        self.PWMA.ChangeDutyCycle(left * self.compensationLeft)
+        self.PWMB.ChangeDutyCycle(right * self.compensationRight)
         GPIO.output(self.AIN1, GPIO.LOW)
         GPIO.output(self.AIN2, GPIO.HIGH)
         GPIO.output(self.BIN1, GPIO.LOW)
@@ -76,8 +77,10 @@ class Robot(object):
         Code repris de la classe AlphaBot2
         Fait avancer le robot
         """
-        self.PWMA.ChangeDutyCycle(self.speed)
-        self.PWMB.ChangeDutyCycle(self.speed)
+        print(self.speed * self.compensationLeft)
+        print(self.speed * self.compensationRight)
+        self.PWMA.ChangeDutyCycle(self.speed * self.compensationLeft)
+        self.PWMB.ChangeDutyCycle(self.speed * self.compensationRight)
         GPIO.output(self.AIN1, GPIO.LOW)
         GPIO.output(self.AIN2, GPIO.HIGH)
         GPIO.output(self.BIN1, GPIO.LOW)
@@ -136,7 +139,13 @@ class Robot(object):
         Permet de modifier la vitesse du robot
         :param new_speed: Nouvelle valeur de la vitesse
         """
+        self.stop()
         self.speed = float(new_speed)
+
+    def set_compensation(self, left, right):
+        self.stop()
+        self.compensationRight = right
+        self.compensationLeft = left
 
     @staticmethod
     def gpio_cleanup():
