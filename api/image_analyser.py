@@ -1,10 +1,12 @@
-from skimage import color
+from skimage import color, io
 from skimage.transform import hough_circle, hough_circle_peaks, rescale
 from skimage.feature import canny
 from skimage.draw import circle
 from skimage.util import img_as_ubyte
 
 import numpy as np
+
+from PIL import Image
 
 
 class ImageAnalyser(object):
@@ -29,11 +31,10 @@ class ImageAnalyser(object):
         img = color.rgb2gray(image)
         image = img_as_ubyte(img)
 
-
         # Détecte les bords d'une forme grâce à un dérivé de la fonction gaussienne
         # Possibilité de modifier la precision en modifiant le sigma
         # Utilise des seuils d'hystère afin d'éviter le bruit
-        edges = canny(image, sigma=4, low_threshold=10, high_threshold=50)
+        edges = canny(image, sigma=3, low_threshold=10, high_threshold=50)
 
         hough_radii = np.arange(min_radius, max_radius, step_radius)
 
@@ -56,6 +57,24 @@ class ImageAnalyser(object):
         :return Coordonnées des pixels dans le cercle
         """
         return circle(center_y, center_x, radius)
+
+    def is_red_circle_2(self, image, circx, circy):
+        image_slice_red = image[:, :, 0]
+        image_slice_green = image[:, :, 1]
+        image_slice_blue = image[:, :, 2]
+
+        mask = (image_slice_red * 255 > 200) & (
+                image_slice_red * 255 > (image_slice_green * 255 + image_slice_blue * 255) *10)
+        image[mask] = [0, 1, 0]
+        counter = 0
+        for x, y in zip(circx, circy):
+            try:
+                r, g, b = image[y, x]
+                if r == 0 and g == 1 and b == 0:
+                    counter += 1
+            except IndexError:
+                print('Erreur d\'index')
+        return counter > 50
 
     def is_red_circle(self, image, circx, circy):
         """

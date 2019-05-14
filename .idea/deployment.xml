@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="pi@192.168.137.227:22">
+  <component name="PublishConfigData" autoUpload="Always" serverName="AlphaBot2 - RedBallBot2">
     <serverData>
       <paths name="AlphaBot2 - RedBallBot2">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="pi@192.168.137.227:22">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/pi/Desktop/RedBallBot" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/pi/Desktop/RedBallBot" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

@@ -5,6 +5,7 @@ import numpy as np
 from api.image_analyser import ImageAnalyser
 from PIL import Image
 from datetime import datetime
+from skimage import io as scikit_io
 
 # Constantes pour les requêtes
 URL_GET_IMAGE = '/get_image'
@@ -14,7 +15,7 @@ BALL_NOT_FOUND = 'None'
 # Constantes pour l'analyses d'images
 MIN_RADIUS = 7
 MAX_RADIUS = 150
-NUMBER_BEST_CIRCLE = 3
+NUMBER_BEST_CIRCLE = 5
 STEP_RADIUS = 1
 RATIO_RESCALE = 0.1
 
@@ -46,31 +47,11 @@ def get_last_image():
     """
     r = requests.get(url_robot + URL_GET_IMAGE, stream=True)
     image_received = Image.open(io.BytesIO(r.content))
+
     image_received = np.asarray(image_received)
-    # image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
+    image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
 
-    empty_img = np.zeros_like(image_received)
-
-    RED, GREEN, BLUE = (2, 1, 0)
-
-    reds = image_received[:, :, RED]
-    greens = image_received[:, :, GREEN]
-    blues = image_received[:, :, BLUE]
-
-    maskG = (greens < 35) | (reds > greens) | (blues > greens)
-    maskB = (blues < 35) | (reds > blues) | (greens > blues)
-    maskR = (reds < 35) | (blues > reds) | (greens > reds)
-
-    # empty_img[maskG] = (255, 0, 0)
-    # empty_img[maskG, 0] = 255
-
-    # empty_img[maskB] = (255, 0, 0)
-    # empty_img[maskB, 0] = 255
-    # https://codereview.stackexchange.com/questions/184044/processing-an-image-to-extract-green-screen-mask
-    empty_img[maskR] = (255, 0, 0)
-    empty_img[maskR, 0] = 255
-
-    return empty_img
+    return image_received
 
 
 def send_ball_infos(ball_infos_to_send):
@@ -104,7 +85,7 @@ def check_possible_circles(image_to_check):
             step_radius=STEP_RADIUS):
         circy, circx = analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
 
-        if analyser.is_red_circle(image=image_to_check, circx=circx, circy=circy):
+        if analyser.is_red_circle_2(image=image_to_check, circx=circx, circy=circy):
             kept_circles.append((center_x, center_y, radius))
 
     return kept_circles
@@ -116,8 +97,6 @@ while True:
     last_circle = (0, 0)
 
     image = get_last_image()
-    image_save = Image.fromarray(image, 'RGB')
-    image_save.save(str(counter) + '.jpg')
     possible_circle = check_possible_circles(image)
 
     if len(possible_circle) == 0:

@@ -35,7 +35,7 @@ class StreamingOutput(object):
             frame = self.frame
             image = Image.open(io.BytesIO(frame))
 
-            r = requests.get('http://192.168.137.227:5000/get_ball_infos')
+            r = requests.get('http://127.0.0.1:5000/get_ball_infos')
 
             if r.text != 'None':
                 ball_infos = str(r.text).split(';')
