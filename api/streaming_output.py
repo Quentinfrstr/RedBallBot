@@ -9,6 +9,30 @@ from PIL import Image, ImageDraw
 
 
 class StreamingOutput(object):
+    """
+        Une classe utilisé pour le flux vidéo
+
+        ...
+
+        Attributes
+        ----------
+        IMAGE_FORMAT : str
+            Format de l'image envoyé
+        LINE_WIDTH : int
+            Largeur de la ligne de dessin
+        LINE_COLOR : tuple
+            Couleur de la ligne de dessin
+
+        Methods
+        -------
+        write(buf)
+            !!!!!!!!!!!!!!!!
+        gen()
+            !!!!!!!!!!!!!!!!
+        add_green_square_around_circle(image, circle_center_x, circle_center_y, radius)
+            Ajoute un carré vert autour du rond analysé
+
+        """
     IMAGE_FORMAT = 'jpeg'
     LINE_WIDTH = 3
     LINE_COLOR = (0, 255, 0)
@@ -19,18 +43,42 @@ class StreamingOutput(object):
         self.condition = Condition()
 
     def write(self, buf):
-        # Check si c'est une signature jpeg
+        """ Récupère les informations de la caméra
+        Appelé directement par la caméra
+
+        Parameters
+        ----------
+        buf : bytearray
+            Stream de la caméra
+
+        Returns
+        -------
+        bytearray
+            Retourne le nombre de bytes écrit
+        """
+        # Regarde si le buffer de la caméra est bien une image jpeg
         if buf.startswith(b'\xff\xd8'):
             # New frame, copy the existing buffer's content and notify all
             # clients it's available
             self.buffer.truncate()
             with self.condition:
                 self.frame = self.buffer.getvalue()
+                # Notifie tous les processus qui attendent l'image
                 self.condition.notify_all()
+
+            # Remet le buffer au début
             self.buffer.seek(0)
         return self.buffer.write(buf)
 
     def gen(self):
+        """ Génère les images avec le carré rouge si les informations de la balle sont disponible
+        Utilise un générateur python
+
+        Returns
+        -------
+        bytearray
+            Réponse sous forme binaire de l'image
+        """
         while True:
             frame = self.frame
             image = Image.open(io.BytesIO(frame))
@@ -40,17 +88,35 @@ class StreamingOutput(object):
             if r.text != 'None':
                 ball_infos = str(r.text).split(';')
 
-                image = self.add_green_square_in_stream(image, int(ball_infos[0]), int(ball_infos[1]),
-                                                        int(ball_infos[2]))
+                image = self.add_green_square_around_circle(image, int(ball_infos[0]), int(ball_infos[1]),
+                                                            int(ball_infos[2]))
 
             img_byte_arr = io.BytesIO()
-            image.save(img_byte_arr, format='jpeg')
+            image.save(img_byte_arr, format=self.IMAGE_FORMAT)
             img_byte_arr = img_byte_arr.getvalue()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + img_byte_arr + b'\r\n')
 
     @staticmethod
-    def add_green_square_in_stream(image, circle_center_x, circle_center_y, radius):
+    def add_green_square_around_circle(image, circle_center_x, circle_center_y, radius):
+        """Ajoute un carré vert autour du rond
+
+        Parameters
+        ----------
+        image : PIL Image
+            Image à modifier
+        circle_center_x : int
+            Centre du cercle en X
+        circle_center_y : int
+            Centre du cercle en Y
+        radius : int
+            Rayon du cercle
+
+        Returns
+        -------
+        PIL Image
+            Image modifiée
+        """
         width, height = image.size
         image_center = (width / 2, height / 2)
 

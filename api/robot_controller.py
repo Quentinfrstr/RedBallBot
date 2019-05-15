@@ -54,28 +54,38 @@ last_ball_infos = None
 
 @app.route(URL_INDEX)
 def index():
-    """
-    Renvoi la page index.html pour que l'utilisateur puisse avoir accès
+    """Renvoi la page index.html pour que l'utilisateur puisse avoir accès
     au contrôle du robot et au flux vidéo
-    :return: Page index.html
+
+    Returns
+    -------
+    html page
+        Le template html de la page d'index
     """
     return render_template('index.html')
 
 
 @app.route(URL_VIDEO_STREAM)
 def video_stream():
-    """
-    Permet d'obtenir le flux vidéo de la caméra quand le buffer est disponible
-    :return: Envoi la dernière image quand celle-ci est disponible
+    """Permet d'obtenir le flux vidéo de la caméra quand le buffer est disponible
+    :return:
+
+    Returns
+    -------
+    Image jpeg
+        Envoi la dernière image quand celle-ci est disponible
     """
     return Response(output.gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route(URL_GET_IMAGE)
 def get_image():
-    """
-    Obtient la dernière image capturé par la caméra
-    :return: Envoi sous forme de fichier la dernière image de la caméra
+    """ Obtient la dernière image capturé par la caméra
+
+    Returns
+    -------
+    Image jpeg
+        Envoi sous forme de fichier la dernière image de la caméra
     """
     frame = output.frame
     return send_file(io.BytesIO(frame), mimetype='image/jpeg', as_attachment=False)
@@ -83,13 +93,17 @@ def get_image():
 
 @app.route(URL_GET_BALL_INFOS)
 def get_ball_infos():
-    """
-    Obtient les dernières informations de la position de la balle
+    """Obtient les dernières informations de la position de la balle
     Disponible par adresse http
-    :return: Retourne center_x;center_y;radius
-    si la position de la balle est connue
-    Sinon, envoie None
+
+    Returns
+    -------
+    tupple
+        tupple qui contient le centre X,Y de la balle et son rayon
+        ou
+        None si aucune balle n'est trouvé
     """
+
     if last_ball_infos is not None:
         result = str(last_ball_infos[0]) + ';' + str(last_ball_infos[1]) + ';' + str(last_ball_infos[2])
     else:
@@ -99,10 +113,17 @@ def get_ball_infos():
 
 @app.route(URL_SET_BALL_INFOS)
 def set_ball_infos(ball_infos):
-    """
-    Défini les dernières informations de la balle (son centre et son rayon)
-    :param ball_infos: Centre X, Centre Y et rayon de la balle sous forme centre_x;centre_y;rayon
-    :return: Renvoi un code 200
+    """Défini les dernières informations de la balle (son centre et son rayon)
+
+    Parameters
+    ----------
+    ball_infos : str
+        Centre X, Centre Y et rayon de la balle sous forme de string centre_x;centre_y;rayon
+
+    Returns
+    -------
+    str
+        Renvoi un code 200 en cas de réussite
     """
     global last_ball_infos
     if ball_infos != 'None':
@@ -119,15 +140,22 @@ def set_ball_infos(ball_infos):
 
 @app.route(URL_SEND_CMD)
 def send_cmd(cmd):
-    """
-    Permet de commander le robot a distance avec les commandes suivante :
+    """Permet de commander le robot a distance avec les commandes suivante :
         - forward
         - backward
         - left
         - right
         - stop
-    :param cmd: Commande que le robot doit effectuer
-    :return: Renvoi un code 200
+
+    Parameters
+    ----------
+    cmd : str
+        Commande que le robot doit effectuer
+
+    Returns
+    -------
+    str
+        Renvoi un code 200 en cas de réussite
     """
     if not is_auto_mode:
         if cmd == CMD_FORWARD:
@@ -146,6 +174,19 @@ def send_cmd(cmd):
 
 @app.route(URL_SET_ROBOT_MODE)
 def set_robot_mode(mode):
+    """Défini le mode de déplacement du robot
+        - auto
+        - manuel
+    Parameters
+    ----------
+    mode : str
+        Le mode de déplacement du robot
+
+    Returns
+    -------
+    str
+        Renvoi un code 200 en cas de réussite
+    """
     robot.stop()
     global is_auto_mode
     is_auto_mode = mode == 'auto'
@@ -153,10 +194,17 @@ def set_robot_mode(mode):
 
 @app.route(URL_CHANGE_SPEED)
 def change_speed(new_speed):
-    """
-    Permet de modifier la vitesse du robot
-    :param new_speed: Valeur entre 0 et 100 de la vitesse
-    :return: Renvoi un code 200
+    """Permet de modifier la vitesse du robot
+
+    Parameters
+    ----------
+    new_speed : str
+        Valeur entre 0 et 100 de la vitesse
+
+    Returns
+    -------
+    str
+        Renvoi un code 200 en cas de réussite
     """
     robot.change_speed(new_speed)
     return 'Done', 200
@@ -164,6 +212,19 @@ def change_speed(new_speed):
 
 @app.route(URL_SET_COMPENSATION)
 def set_compensation(compensation):
+    """ Défini le ratio de compensation des moteurs
+        Permet de corriger les défaillances matérielles
+
+    Parameters
+    ----------
+    compensation : str
+        Valeur des ratios de compensations des moteurs
+
+    Returns
+    -------
+    str
+        Renvoi un code 200 en cas de réussite
+    """
     compensations = compensation.split(';')
     print(compensation)
     robot.set_compensation(float(compensations[0]), float(compensations[1]))
@@ -171,9 +232,12 @@ def set_compensation(compensation):
 
 
 def go_to_ball(ball_center_x):
-    """
-    Commande le robot pour qu'il aille a la balle
-    :param ball_center_x: Centre X de la balle
+    """Commande le robot pour qu'il aille à la balle
+
+    Parameters
+    ----------
+    ball_center_x : int
+        Centre de la balle en X
     """
     image_center = (CAMERA_RESOLUTION[0] / 2, CAMERA_RESOLUTION[1] / 2)
     diff_speed = int((ball_center_x - image_center[0]) * 0.01)

@@ -24,10 +24,14 @@ url_robot = sys.argv[1]
 
 
 def get_most_likely_circle():
+    """Obtient le cercle le plus proche de clui qui a été analysé la dernière fois
+
+    Returns
+    -------
+    tuple
+        Le centre et le rayon du cercle le plus probable
     """
-    Obtient le cercle le plus proche de celui qui a été analysé la dernière fois.
-    :return: Le centre du cercle le plus probable
-    """
+
     # Valeur exagérée pour qu'il y est obligatoirement un cercle plus proche
     right_circle = (1000, 1000)
     for c in possible_circle:
@@ -39,11 +43,14 @@ def get_most_likely_circle():
 
 
 def get_last_image():
-    """
-    Récupère la dernière image capturé par la caméra du robot
-    Transforme l'image en array
+    """Récupère la dernière image capturé par la caméra du robot
+    Transforme l'image en ndarray
     Redimensionne l'image pour un traitement plus rapide
-    :return: Image redimensionnée sous forme d'array
+    
+    Returns
+    -------
+    ndarray
+        Image reçue
     """
     image_received = scikit_io.imread(url_robot + URL_GET_IMAGE)
     image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
@@ -52,10 +59,16 @@ def get_last_image():
 
 
 def send_ball_infos(ball_infos_to_send):
-    """
-    Envoi les infos obtenus par l'analyse au robot
-    S'il n'y avait pas de balle, envoi None
-    :param ball_infos_to_send: Infos à envoyer au robot
+    """Envoi les informations de la balle obbtenus par l'analyse
+
+    Parameters
+    ----------
+    ball_infos_to_send : tuple
+
+    Returns
+    -------
+    str
+        Informations à envoyer au roboz
     """
     if ball_infos_to_send == BALL_NOT_FOUND:
         requests.get(url_robot + URL_SET_BALL_INFOS + ball_infos_to_send)
@@ -68,30 +81,37 @@ def send_ball_infos(ball_infos_to_send):
 
 
 def check_possible_circles(image_to_check):
-    """
-    Analyse les différents cercles présents dans l'image
+    """Analyse les différents cercles présents sur l'image
     Garde seulement les rouges
-    Renvoi la liste des possiblités
-    :param image_to_check: Image contenant les potentiels cercles
-    :return: Liste de cercles rouges
+
+    Parameters
+    ----------
+    image_to_check : ndarray
+        Image à analyser
+
+    Returns
+    -------
+    list
+        Contient tous les cercles possibles
+
     """
     global MIN_RADIUS, MAX_RADIUS, NUMBER_BEST_CIRCLE, STEP_RADIUS
     kept_circles = []
-    for accums, center_x, center_y, radius in analyser.get_circle_center(
+    image_red_detected = analyser.get_red_in_image(image_to_check)
+    for center_x, center_y, radius in analyser.get_circle_center(
             image=image_to_check, min_radius=MIN_RADIUS, max_radius=MAX_RADIUS, number_best_circle=NUMBER_BEST_CIRCLE,
             step_radius=STEP_RADIUS):
         circy, circx = analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
 
-        if analyser.is_red_circle(image=image_to_check, circx=circx, circy=circy):
+        if analyser.is_red_circle(image=image_red_detected, circx=circx, circy=circy):
             kept_circles.append((center_x, center_y, radius))
 
     return kept_circles
 
 
-counter = 0
 while True:
     elapsed_time = datetime.now()
-    last_circle = (0, 0)
+    last_circle = (0, 0, 0)
 
     image = get_last_image()
     possible_circle = check_possible_circles(image)
@@ -103,4 +123,3 @@ while True:
         send_ball_infos(last_circle)
 
     print(datetime.now() - elapsed_time)
-    counter += 1

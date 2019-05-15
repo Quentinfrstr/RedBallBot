@@ -10,26 +10,71 @@ from PIL import Image
 
 
 class ImageAnalyser(object):
+    """
+    Une classe utilisé pour l'analyse d'image
+
+    ...
+
+    Attributes
+    ----------
+    MAX_VALUE_RGB : int
+        Valeur maximal du RGB
+
+    Methods
+    -------
+    get_circle_center(image, min_radius, max_radius, step_radius, number_best_circle) : staticmethod
+        Détecte les cercles présents dans l'image
+
+    get_pixels_circles(center_x, center_y, radius) : staticmethod
+        Récupère tous les pixels du cercle demandé
+
+    is_red_circle(self, image, circx, circy) : staticmethod
+        Détecte si un rond contient du rouge
+
+    get_red_in_image(image) : staticmethod
+        Détecte le rouge de l'image et renvoi une nouvelle image modifié
+
+    is_red_circle_old(image, circx, circy): staticmethod
+        Détecte si une balle est rouge
+
+    get_center_image(image) : staticmethod
+        Obtient la position x,y du centre de l'image
+
+    image_rescale(image, ratio) : staticmethod
+        Redimensionne l'image avec le ratio demandé
+    """
+
     MAX_VAlUE_RGB = 255
-    LOWER_RED = np.array([30, 150, 50])
-    UPPER_RED = np.array([255, 255, 180])
 
     def __init__(self):
+        """Constructeur de la classe
+        """
         pass
 
     @staticmethod
     def get_circle_center(image, min_radius, max_radius, step_radius, number_best_circle):
+        """Détecte les cercles présents dans l'image
+
+        Parameters
+        ----------
+        image: ndarray
+            Image à analyser
+        min_radius: int
+            Rayon minimum des cercles
+        max_radius : int
+            Rayon maximum des cercles
+        step_radius : int
+            Pas entre les rayons des cercles
+        number_best_circle : int
+            Nombre de cercles à retourner (Choisi les N meilleurs)
+
+        Returns
+        -------
+        tuple
+            Retourne les informations sur les cercles (centre X, centre Y, rayon)
         """
-        Cherche les cercles présent dans l'image
-        :param image: Image à analyser
-        :param min_radius: Rayon minimum du cercle
-        :param max_radius: Rayon maximum du cercle
-        :param step_radius: Pas entre les rayons
-        :param number_best_circle: Nombre de cercles à retourner
-        :return: Retourne les informations sur les cercles (center_x, center_y, radius)
-        """
-        img = color.rgb2gray(image)
-        image = img_as_ubyte(img)
+        image = color.rgb2gray(image)
+        image = img_as_ubyte(image)
 
         # Détecte les bords d'une forme grâce à un dérivé de la fonction gaussienne
         # Possibilité de modifier la precision en modifiant le sigma
@@ -45,27 +90,44 @@ class ImageAnalyser(object):
                                                    total_num_peaks=number_best_circle, min_xdistance=20,
                                                    min_ydistance=20)
 
-        return zip(accums, cx, cy, radii)
+        return zip(cx, cy, radii)
 
     @staticmethod
     def get_pixels_circles(center_x, center_y, radius):
-        """
-        Récupère tous les pixels du cercle
-        :param center_x: Centre du cercle en X
-        :param center_y: Center du cercle en Y
-        :param radius: Rayon du cercle
-        :return Coordonnées des pixels dans le cercle
+        """Récupère tous les pixels du cercle demandé
+
+        Parameters
+        ----------
+        center_x : int
+            Centre en X du cercle
+        center_y : int
+            Centre en Y du cercle
+        radius : int
+            Rayon du cercle
+
+        Returns
+        -------
+        ndarray of int
+            Toutes les positions X,Y des pixels du cercle
         """
         return circle(center_y, center_x, radius)
 
-    def is_red_circle(self, image, circx, circy):
-        image_slice_red = image[:, :, 0]
-        image_slice_green = image[:, :, 1]
-        image_slice_blue = image[:, :, 2]
+    @staticmethod
+    def is_red_circle(image, circx, circy):
+        """
 
-        mask = (image_slice_red * 255 > 200) & (
-                image_slice_red * 255 > (image_slice_green * 255 + image_slice_blue * 255) *10)
-        image[mask] = [0, 1, 0]
+        Parameters
+        ----------
+        image
+        circx
+        circy
+
+        Returns
+        -------
+        bool
+            S'il y a plus de 50 pixels rouge dans l'image -> True
+            S'il y a moins de 50 pixels rouge dans l'image -> False
+        """
         counter = 0
         for x, y in zip(circx, circy):
             try:
@@ -76,14 +138,37 @@ class ImageAnalyser(object):
                 print('Erreur d\'index')
         return counter > 50
 
-    def is_red_circle_old(self, image, circx, circy):
-        """
-        Détermine si, en moyenne, le rouge est dominant dans le cercle
-        :param image: L'image en couleur (float 0.1 to 1.0)
-        :param circx: Tous les points x du cercle (Aire)
-        :param circy: Tous les points y du cercle (Aire)
-        :return: True -> Le cercle est déterminé comme rouge
-        False -> Le cercle n'est pas suffisamment rouge
+    @staticmethod
+    def get_red_in_image(image):
+
+        image_slice_red = image[:, :, 0]
+        image_slice_green = image[:, :, 1]
+        image_slice_blue = image[:, :, 2]
+
+        mask = (image_slice_red * 255 > 200) & (
+                image_slice_red * 255 > (image_slice_green * 255 + image_slice_blue * 255) * 10)
+        image[mask] = [0, 1, 0]
+
+        return image
+
+    @staticmethod
+    def is_red_circle_old(image, circx, circy):
+        """Détecte si une balle est rouge
+
+        Parameters
+        ----------
+        image : ndarray
+            Image à analyser
+        circx : list de int
+            Tous les pixels en X du rond
+        circy : list de int
+            Tous les pixels en Y du rond
+
+        Returns
+        -------
+        bool
+            Si le rond est rouge -> True
+            Si le rond n'est pas rouge -> False
         """
 
         r_total = []
@@ -104,9 +189,9 @@ class ImageAnalyser(object):
                 print('Partie du rond en dehors de l\'image')
 
         try:
-            avg_r = sum(r_total) / len(r_total) * self.MAX_VAlUE_RGB
-            avg_g = sum(g_total) / len(g_total) * self.MAX_VAlUE_RGB
-            avg_b = sum(b_total) / len(b_total) * self.MAX_VAlUE_RGB
+            avg_r = sum(r_total) / len(r_total) * ImageAnalyser.MAX_VAlUE_RGB
+            avg_g = sum(g_total) / len(g_total) * ImageAnalyser.MAX_VAlUE_RGB
+            avg_b = sum(b_total) / len(b_total) * ImageAnalyser.MAX_VAlUE_RGB
         except ArithmeticError:
             print('Tentative de division par 0')
 
@@ -115,10 +200,17 @@ class ImageAnalyser(object):
 
     @staticmethod
     def get_center_image(image):
-        """
-        Obtient la position (x,y) du centre de l'image
-        :param image: Image souhaitée
-        :return: Centre (x,y) de l'image
+        """Obtient la position (x,y) du centre de l'image
+
+        Parameters
+        ----------
+        image : ndarray
+            Image souhaité
+
+        Returns
+        -------
+        point
+            Position X,Y du centre de l'image
         """
         image_center_x = round(len(image[0]) / 2)
         image_center_y = round(len(image) / 2)
@@ -128,10 +220,18 @@ class ImageAnalyser(object):
 
     @staticmethod
     def image_rescale(image, ratio):
-        """
-        Re dimensionne l'image avec le ratio demandé
-        :param image: Image sous forme de tableau
-        :param ratio: Ratio de re dimensionnement
-        :return: Image re dimensionné sous forme de tableau
+        """Redimensionne l'image avec le ration demandé
+
+        Parameters
+        ----------
+        image : ndarray
+            Image a redimensionné
+        ratio : float
+            Ratio de redimensionnement
+
+        Returns
+        -------
+        ndarray
+            Image redimensionné
         """
         return rescale(image, ratio, anti_aliasing=True)

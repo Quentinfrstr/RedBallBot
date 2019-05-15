@@ -2,7 +2,63 @@ import RPi.GPIO as GPIO
 
 
 class Robot(object):
-    # Repris de la classe AlphaBot2, fourni avec le robot
+    """
+        Une classe utilisé pour les déplacements du robot
+        Une partie du code est reprise de la classe AlphaBot2
+        ...
+
+        Attributes
+        ----------
+        AIN1 : int
+            pin du GPIO 1 du moteur gauche
+        AIN2 : int
+            pin du GPIO 2 du moteur gauche
+        BIN1 : int
+            pin du GPIO 1 du moteur droit
+        BIN2 : int
+            pin du GPIO 2 du moteur droit
+        ENA : int
+            pin du PWM du moteur gauche
+        ENB : int
+            pin du PWM du moteur droit
+        MAX_DUTY_CICLE : int
+            Valeur maxmimum du rapport cyclique
+        MIN_DUTY_CYCLE : int
+            Valeur minimale du rapport cyclique
+        speed : int
+            Vitesse du robot
+        compensation_left : float
+            Compensation du moteur gauche
+        compensation_right : float
+            Compensation du moteur droit
+
+        Methods
+        -------
+        set_motor(self, left, right)
+            Défini le rapport cyclique du moteur droite et gauche
+        forward_with_modification(self, left, right)
+            Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+        forward(self)
+            Fait avancer le robot
+        stop(self)
+            Arrête le robot
+        backward(self)
+            Fait reculer le robot
+        left(self)
+            Fait tourné le robot vers la gauche
+        right(self)
+            Fait tourné le robot vers la droite
+        change_speed(self, new_speed)
+            Change la vitesse du robot
+        set_compensation(self, left, right)
+            Défini la compensation de puissance des moteurs pour palier au défaut matériel
+        gpio_cleanup() : staticmethod
+            Nettoye les GPIO du robot
+        __del__()
+            Nettoye les GPIO du robot à la fin du processus
+        """
+
+    # Valeurs des pins reprient de la classe AlphaBot2
     AIN1 = 12
     AIN2 = 13
     BIN1 = 20
@@ -15,14 +71,14 @@ class Robot(object):
 
     def __init__(self, speed=30):
         """
-        Code repris de la classe AlphaBot2
-        Ajout de la vitesse du robot pour un controle encore meilleure
-        :param speed: Vitesse du robot
+        Parameters
+        ----------
+        speed : int
+            La vitesse du robot
         """
         self.speed = speed
-        self.compensationLeft = 1
-        self.compensationRight = 1
-        self.auto_mode_speed_adjustment = 0
+        self.compensation_left = 1
+        self.compensation_right = 1
 
         # Repris de la classe AlphaBot2, fourni avec le robot
         GPIO.setmode(GPIO.BCM)
@@ -40,11 +96,17 @@ class Robot(object):
         self.stop()
 
     def set_motor(self, left, right):
-        """
-        Méthodes fournis par les créateurs d'AlphaBot2
-        Permet de changer le rapport cyclique de chaque roue
-        :param left: Valeur du rapport cyclique de la roue gauche
-        :param right: Valeur du rapport cyclique de la roue droite
+        """Défini la vitesse et la direction des moteurs du robot
+
+        La direction change en fonction de la valeur (positive ou négative)
+
+        Parameters
+        ----------
+        left : int
+            Vitesse du moteur gauche
+        right : int
+            Vitesse du moteur droit
+
         """
 
         if (right >= 0) and (right <= self.MAX_DUTY_CYCLE):
@@ -65,31 +127,39 @@ class Robot(object):
             self.PWMB.ChangeDutyCycle(0 - left)
 
     def forward_with_modification(self, left, right):
-        self.PWMA.ChangeDutyCycle(left * self.compensationLeft)
-        self.PWMB.ChangeDutyCycle(right * self.compensationRight)
+        """ Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+
+        Parameters
+        ----------
+        left : int
+            Vitesse du moteur gauche
+        right : int
+            Vitesse du moteur droit
+
+        """
+        self.PWMA.ChangeDutyCycle(left * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(right * self.compensation_right)
         GPIO.output(self.AIN1, GPIO.LOW)
         GPIO.output(self.AIN2, GPIO.HIGH)
         GPIO.output(self.BIN1, GPIO.LOW)
         GPIO.output(self.BIN2, GPIO.HIGH)
 
     def forward(self):
+        """ Fait avancer le robot
+        Méthode reprise de AlphaBot2
+
         """
-        Code repris de la classe AlphaBot2
-        Fait avancer le robot
-        """
-        print(self.speed * self.compensationLeft)
-        print(self.speed * self.compensationRight)
-        self.PWMA.ChangeDutyCycle(self.speed * self.compensationLeft)
-        self.PWMB.ChangeDutyCycle(self.speed * self.compensationRight)
+        self.PWMA.ChangeDutyCycle(self.speed * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(self.speed * self.compensation_right)
         GPIO.output(self.AIN1, GPIO.LOW)
         GPIO.output(self.AIN2, GPIO.HIGH)
         GPIO.output(self.BIN1, GPIO.LOW)
         GPIO.output(self.BIN2, GPIO.HIGH)
 
     def stop(self):
-        """
-        Code repris de la classe AlphaBot2
-        Fait s'arrêter le robot
+        """ Fait s'arrêter le robot
+        Méthode reprise de AlphaBot2
+
         """
         self.PWMA.ChangeDutyCycle(0)
         self.PWMB.ChangeDutyCycle(0)
@@ -99,9 +169,9 @@ class Robot(object):
         GPIO.output(self.BIN2, GPIO.LOW)
 
     def backward(self):
-        """
-        Code repris de la classe AlphaBot2
-        Fait reculer le robot
+        """ Fait reculer le robot
+        Méthode reprise de AlphaBot2
+
         """
         self.PWMA.ChangeDutyCycle(self.speed)
         self.PWMB.ChangeDutyCycle(self.speed)
@@ -111,9 +181,9 @@ class Robot(object):
         GPIO.output(self.BIN2, GPIO.LOW)
 
     def left(self):
-        """
-        Code repris de la classe AlphaBot2
-        Fait tourner le robot vers la gauche
+        """Fait tourner le robot vers la gauche
+        Méthode reprise de AlphaBot2
+
         """
         self.PWMA.ChangeDutyCycle(self.speed)
         self.PWMB.ChangeDutyCycle(self.speed)
@@ -123,9 +193,9 @@ class Robot(object):
         GPIO.output(self.BIN2, GPIO.HIGH)
 
     def right(self):
-        """
-        Code repris de la classe AlphaBot2
-        Fait tourner le robot vers la droite
+        """Fait tourner le robot vers la droite
+        Méthode reprise de la classe AlphaBot2
+
         """
         self.PWMA.ChangeDutyCycle(self.speed)
         self.PWMB.ChangeDutyCycle(self.speed)
@@ -135,28 +205,43 @@ class Robot(object):
         GPIO.output(self.BIN2, GPIO.LOW)
 
     def change_speed(self, new_speed):
-        """
-        Permet de modifier la vitesse du robot
-        :param new_speed: Nouvelle valeur de la vitesse
+        """Permet de modifier la vitesse du robot
+
+        Parameters
+        ----------
+        new_speed : int
+            Nouvelle vitesse du robot
+
         """
         self.stop()
         self.speed = float(new_speed)
 
     def set_compensation(self, left, right):
+        """ Défini la compensation des moteurs
+
+        Parameters
+        ----------
+        left : float
+            Ratio de compensation du moteur gauche
+        right : float
+            Ratio de compensation du moteur droit
+
+        """
         self.stop()
-        self.compensationRight = right
-        self.compensationLeft = left
+        self.compensation_right = right
+        self.compensation_left = left
 
     @staticmethod
     def gpio_cleanup():
         """
         Nettoye les GPIO
+
         """
         GPIO.cleanup()
 
     def __del__(self):
         """
         Effectué lorsque le programme s'arrête
-        :return:
+
         """
         self.gpio_cleanup()
