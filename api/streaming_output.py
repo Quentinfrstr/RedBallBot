@@ -22,13 +22,19 @@ class StreamingOutput(object):
             Largeur de la ligne de dessin
         LINE_COLOR : tuple
             Couleur de la ligne de dessin
+        frame : bytearray
+            Dernière image capturé par la caméra
+        buffer : bytearray
+            Récupère le flux de la caméra
+        condition : Condition
+            Permet de notifier tous les processus en attente d'informations
 
         Methods
         -------
-        write(buf)
-            !!!!!!!!!!!!!!!!
+        write(self, buf)
+            Récupère les informations de la caméra
         gen()
-            !!!!!!!!!!!!!!!!
+            Genève les images avec un carré vert autour de la balle rouge
         add_green_square_around_circle(image, circle_center_x, circle_center_y, radius)
             Ajoute un carré vert autour du rond analysé
 
