@@ -95,39 +95,9 @@ class Robot(object):
         self.PWMB.start(self.speed)
         self.stop()
 
-    def set_motor(self, left, right):
-        """Défini la vitesse et la direction des moteurs du robot
-
-        La direction change en fonction de la valeur (positive ou négative)
-
-        Parameters
-        ----------
-        left : int
-            Vitesse du moteur gauche
-        right : int
-            Vitesse du moteur droit
-
-        """
-
-        if (right >= 0) and (right <= self.MAX_DUTY_CYCLE):
-            GPIO.output(self.AIN1, GPIO.HIGH)
-            GPIO.output(self.AIN2, GPIO.LOW)
-            self.PWMA.ChangeDutyCycle(right)
-        elif (right < 0) and (right >= self.MIN_DUTY_CYCLE):
-            GPIO.output(self.AIN1, GPIO.LOW)
-            GPIO.output(self.AIN2, GPIO.HIGH)
-            self.PWMA.ChangeDutyCycle(0 - right)
-        if (left >= 0) and (left <= self.MAX_DUTY_CYCLE):
-            GPIO.output(self.BIN1, GPIO.HIGH)
-            GPIO.output(self.BIN2, GPIO.LOW)
-            self.PWMB.ChangeDutyCycle(left)
-        elif (left < 0) and (left >= self.MIN_DUTY_CYCLE):
-            GPIO.output(self.BIN1, GPIO.LOW)
-            GPIO.output(self.BIN2, GPIO.HIGH)
-            self.PWMB.ChangeDutyCycle(0 - left)
-
     def forward_with_modification(self, left, right):
         """ Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+            afin d'adapter la vitesse ou la direction
 
         Parameters
         ----------

@@ -1,10 +1,10 @@
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera
-from api.streaming_output import StreamingOutput
+from streaming_output import StreamingOutput
 
-from api.robot import Robot
-from api.image_analyser import ImageAnalyser
+from robot import Robot
+from image_analyser import ImageAnalyser
 
 import io
 
@@ -47,8 +47,6 @@ camera.rotation = CAMERA_ROTATION
 camera.saturation = CAMERA_SATURATION
 camera.brightness = CAMERA_BRIGHTNESS
 camera.start_recording(output, format='mjpeg')
-
-analyser = ImageAnalyser()
 last_ball_infos = None
 
 

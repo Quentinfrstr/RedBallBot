@@ -1,9 +1,6 @@
 import requests
-import io
 import sys
-import numpy as np
-from api.image_analyser import ImageAnalyser
-from PIL import Image
+from image_analyser import ImageAnalyser
 from datetime import datetime
 from skimage import io as scikit_io
 

@@ -1,12 +1,10 @@
-from skimage import color, io
+from skimage import color
 from skimage.transform import hough_circle, hough_circle_peaks, rescale
 from skimage.feature import canny
 from skimage.draw import circle
 from skimage.util import img_as_ubyte
 
 import numpy as np
-
-from PIL import Image
 
 
 class ImageAnalyser(object):
@@ -145,8 +143,9 @@ class ImageAnalyser(object):
         image_slice_green = image[:, :, 1]
         image_slice_blue = image[:, :, 2]
 
-        mask = (image_slice_red * 255 > 200) & (
-                image_slice_red * 255 > (image_slice_green * 255 + image_slice_blue * 255) * 10)
+        mask = (image_slice_red * ImageAnalyser.MAX_VAlUE_RGB > 200) & (
+                image_slice_red * ImageAnalyser.MAX_VAlUE_RGB > (
+                    image_slice_green * ImageAnalyser.MAX_VAlUE_RGB + image_slice_blue * ImageAnalyser.MAX_VAlUE_RGB) * 10)
         image[mask] = [0, 1, 0]
 
         return image
