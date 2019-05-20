@@ -116,10 +116,12 @@ class ImageAnalyser(object):
 
         Parameters
         ----------
-        image
-        circx
-        circy
-
+        image : ndarray
+            Image transformée par get_red_in_image
+        circx : liste position de pixels en X
+            Tous les pixels en X du rond
+        circy : liste position de pixels en Y
+            Tous les pixels en Y du rond
         Returns
         -------
         bool
@@ -138,7 +140,17 @@ class ImageAnalyser(object):
 
     @staticmethod
     def get_red_in_image(image):
+        """ Transforme les pixels rouges en pixels verts pures
 
+        Parameters
+        ----------
+        image : ndarray
+            Image sous forme d'array numpy
+        Returns
+        -------
+        ndarray
+            Image transformée
+        """
         image_slice_red = image[:, :, 0]
         image_slice_green = image[:, :, 1]
         image_slice_blue = image[:, :, 2]

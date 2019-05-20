@@ -21,6 +21,8 @@ class Robot(object):
             pin du PWM du moteur gauche
         ENB : int
             pin du PWM du moteur droit
+        BUZ : int
+            pin du buzzer
         MAX_DUTY_CICLE : int
             Valeur maxmimum du rapport cyclique
         MIN_DUTY_CYCLE : int
@@ -52,6 +54,10 @@ class Robot(object):
             Change la vitesse du robot
         set_compensation(self, left, right)
             Défini la compensation de puissance des moteurs pour palier au défaut matériel
+        beep_on(self):
+            Démarre le buzzer du robot
+        beep_off(self):
+            Arrête le buzzer du robot
         gpio_cleanup() : staticmethod
             Nettoye les GPIO du robot
         __del__()
@@ -65,6 +71,8 @@ class Robot(object):
     BIN2 = 21
     ENA = 6
     ENB = 26
+
+    BUZ = 4
 
     MAX_DUTY_CYCLE = 100
     MIN_DUTY_CYCLE = -100
@@ -89,6 +97,7 @@ class Robot(object):
         GPIO.setup(self.BIN2, GPIO.OUT)
         GPIO.setup(self.ENA, GPIO.OUT)
         GPIO.setup(self.ENB, GPIO.OUT)
+        GPIO.setup(self.BUZ, GPIO.OUT)
         self.PWMA = GPIO.PWM(self.ENA, 500)
         self.PWMB = GPIO.PWM(self.ENB, 500)
         self.PWMA.start(self.speed)
@@ -208,6 +217,20 @@ class Robot(object):
 
         """
         GPIO.cleanup()
+
+    def beep_on(self):
+        """Démarre le buzzer du robot
+
+        -------
+        """
+        GPIO.output(self.BUZ, GPIO.HIGH)
+
+    def beep_off(self):
+        """Arrête le buzzer du robot
+
+        -------
+        """
+        GPIO.output(self.BUZ, GPIO.LOW)
 
     def __del__(self):
         """

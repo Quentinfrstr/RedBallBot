@@ -1,6 +1,6 @@
 import requests
 import sys
-from image_analyser import ImageAnalyser
+from api.image_analyser import ImageAnalyser
 from datetime import datetime
 from skimage import io as scikit_io
 
@@ -49,8 +49,13 @@ def get_last_image():
     ndarray
         Image reçue
     """
-    image_received = scikit_io.imread(url_robot + URL_GET_IMAGE)
-    image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
+    image_received = None
+
+    try:
+        image_received = scikit_io.imread(url_robot + URL_GET_IMAGE)
+        image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
+    except:
+        print('Connexion au serveur impossible')
 
     return image_received
 
@@ -109,9 +114,11 @@ def check_possible_circles(image_to_check):
 while True:
     elapsed_time = datetime.now()
     last_circle = (0, 0, 0)
+    possible_circle = []
 
     image = get_last_image()
-    possible_circle = check_possible_circles(image)
+    if image is not None:
+        possible_circle = check_possible_circles(image)
 
     if len(possible_circle) == 0:
         send_ball_infos(BALL_NOT_FOUND)

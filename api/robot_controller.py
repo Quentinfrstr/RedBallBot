@@ -1,10 +1,9 @@
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera
-from streaming_output import StreamingOutput
-
-from robot import Robot
-from image_analyser import ImageAnalyser
+from api.streaming_output import StreamingOutput
+from threading import Timer
+from api.robot import Robot
 
 import io
 
@@ -34,6 +33,7 @@ CAMERA_BRIGHTNESS = 40
 
 # Constantes de déplacement
 MARGIN_FORWARD = 75
+MAX_RADIUS_FOR_WIN = 190
 
 app = Flask(__name__)
 
@@ -126,9 +126,17 @@ def set_ball_infos(ball_infos):
     global last_ball_infos
     if ball_infos != 'None':
         last_ball_infos = str(ball_infos).split(';')
-        if is_auto_mode:
+        print(last_ball_infos[2])
+        if is_auto_mode and int(last_ball_infos[2]) < MAX_RADIUS_FOR_WIN:
             go_to_ball(int(last_ball_infos[0]))
+        elif is_auto_mode:
+            robot.stop()
+            robot.beep_on()
+            t = Timer(0.5, robot.beep_off)
+            t.start()
+
     else:
+        robot.beep_off()
         last_ball_infos = None
         if is_auto_mode:
             robot.left()
@@ -242,12 +250,8 @@ def go_to_ball(ball_center_x):
     print(diff_speed)
     if ball_center_x > image_center[0] + MARGIN_FORWARD:
         robot.forward_with_modification(robot.speed + diff_speed, robot.speed - diff_speed)
-        print('left ', robot.speed + diff_speed, sep=':')
-        print('right ', robot.speed - diff_speed, sep=':')
     elif ball_center_x < image_center[0] - MARGIN_FORWARD:
         robot.forward_with_modification(robot.speed + diff_speed, robot.speed - diff_speed)
-        print('left ', robot.speed - diff_speed, sep=':')
-        print('right ', robot.speed + diff_speed, sep=':')
     else:
         robot.forward()
 
