@@ -10,8 +10,8 @@ URL_SET_BALL_INFOS = '/set_ball_infos/'
 BALL_NOT_FOUND = 'None'
 
 # Constantes pour l'analyses d'images
-MIN_RADIUS = 7
-MAX_RADIUS = 150
+MIN_RADIUS = 5
+MAX_RADIUS = 80
 NUMBER_BEST_CIRCLE = 5
 STEP_RADIUS = 1
 RATIO_RESCALE = 0.1
@@ -20,8 +20,9 @@ analyser = ImageAnalyser()
 url_robot = sys.argv[1]
 
 
+
 def get_most_likely_circle():
-    """Obtient le cercle le plus proche de clui qui a été analysé la dernière fois
+    """Obtient le cercle le plus grand de la liste.
 
     Returns
     -------
@@ -30,10 +31,9 @@ def get_most_likely_circle():
     """
 
     # Valeur exagérée pour qu'il y est obligatoirement un cercle plus proche
-    right_circle = (1000, 1000)
+    right_circle = (0, 0, 0)
     for c in possible_circle:
-        if abs(last_circle[0] - c[0]) < right_circle[0] and abs(last_circle[1] - c[1]) < \
-                right_circle[0]:
+        if c[2] >= right_circle[2]:
             right_circle = c
 
     return right_circle
@@ -54,7 +54,7 @@ def get_last_image():
     try:
         image_received = scikit_io.imread(url_robot + URL_GET_IMAGE)
         image_received = analyser.image_rescale(image=image_received, ratio=RATIO_RESCALE)
-    except:
+    except requests.exceptions.ConnectionError:
         print('Connexion au serveur impossible')
 
     return image_received
@@ -72,14 +72,17 @@ def send_ball_infos(ball_infos_to_send):
     str
         Informations à envoyer au roboz
     """
-    if ball_infos_to_send == BALL_NOT_FOUND:
-        requests.get(url_robot + URL_SET_BALL_INFOS + ball_infos_to_send)
-    else:
+    try:
+        if ball_infos_to_send == BALL_NOT_FOUND:
+            requests.get(url_robot + URL_SET_BALL_INFOS + ball_infos_to_send)
+        else:
 
-        result = str(int(ball_infos_to_send[0] / RATIO_RESCALE)) + ';' + str(
-            int(ball_infos_to_send[1] / RATIO_RESCALE)) + ';' + str(int(ball_infos_to_send[2] / RATIO_RESCALE))
-        print(result)
-        requests.get(url_robot + URL_SET_BALL_INFOS + result)
+            result = str(int(ball_infos_to_send[0] / RATIO_RESCALE)) + ';' + str(
+                int(ball_infos_to_send[1] / RATIO_RESCALE)) + ';' + str(int(ball_infos_to_send[2] / RATIO_RESCALE))
+            print(result)
+            requests.get(url_robot + URL_SET_BALL_INFOS + result)
+    except requests.exceptions.ConnectionError:
+        print('Serveur indisponible')
 
 
 def check_possible_circles(image_to_check):

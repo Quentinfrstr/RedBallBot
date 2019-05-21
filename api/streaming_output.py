@@ -135,9 +135,11 @@ class StreamingOutput(object):
 
         d.line([top_left, top_right, bottom_right, bottom_left, top_left], fill=StreamingOutput.LINE_COLOR,
                width=StreamingOutput.LINE_WIDTH)
-        d.line([image_center, (circle_center_x, circle_center_y)], fill=StreamingOutput.LINE_COLOR,
+
+        d.line([image_center[0], image_center[1], circle_center_x, circle_center_y], fill=StreamingOutput.LINE_COLOR,
                width=StreamingOutput.LINE_WIDTH)
+
         d.text(image_center,
-               str(image_center[0] + circle_center_x),
+               str(circle_center_x - image_center[0]),
                StreamingOutput.LINE_COLOR, width=StreamingOutput.LINE_WIDTH)
         return image

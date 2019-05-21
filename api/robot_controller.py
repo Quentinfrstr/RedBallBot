@@ -1,7 +1,7 @@
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera
-from api.streaming_output import StreamingOutput
+from streaming_output import StreamingOutput
 from threading import Timer
 from api.robot import Robot
 
@@ -66,7 +66,6 @@ def index():
 @app.route(URL_VIDEO_STREAM)
 def video_stream():
     """Permet d'obtenir le flux vidéo de la caméra quand le buffer est disponible
-    :return:
 
     Returns
     -------
