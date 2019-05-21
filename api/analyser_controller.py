@@ -4,6 +4,8 @@ from api.image_analyser import ImageAnalyser
 from datetime import datetime
 from skimage import io as scikit_io
 
+from PIL import Image
+
 # Constantes pour les requêtes
 URL_GET_IMAGE = '/get_image'
 URL_SET_BALL_INFOS = '/set_ball_infos/'
@@ -18,7 +20,6 @@ RATIO_RESCALE = 0.1
 
 analyser = ImageAnalyser()
 url_robot = sys.argv[1]
-
 
 
 def get_most_likely_circle():
