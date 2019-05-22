@@ -5,7 +5,6 @@ class Robot(object):
     """
         Une classe utilisé pour les déplacements du robot
         Une partie du code est reprise de la classe AlphaBot2
-        ...
 
         Attributes
         ----------
@@ -58,7 +57,7 @@ class Robot(object):
             Démarre le buzzer du robot
         beep_off(self):
             Arrête le buzzer du robot
-        gpio_cleanup() : staticmethod
+        gpio_cleanup()
             Nettoye les GPIO du robot
         __del__()
             Nettoye les GPIO du robot à la fin du processus

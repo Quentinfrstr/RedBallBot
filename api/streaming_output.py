@@ -12,7 +12,6 @@ class StreamingOutput(object):
     """
         Une classe utilisé pour le flux vidéo
 
-        ...
 
         Attributes
         ----------

@@ -6,14 +6,10 @@ from skimage.util import img_as_ubyte
 
 import numpy as np
 
-from PIL import Image
-
 
 class ImageAnalyser(object):
     """
     Une classe utilisé pour l'analyse d'image
-
-    ...
 
     Attributes
     ----------
@@ -22,29 +18,30 @@ class ImageAnalyser(object):
 
     Methods
     -------
-    get_circle_center(image, min_radius, max_radius, step_radius, number_best_circle) : staticmethod
+    get_circle_center(image, min_radius, max_radius, step_radius, number_best_circle)
         Détecte les cercles présents dans l'image
 
-    get_pixels_circles(center_x, center_y, radius) : staticmethod
+    get_pixels_circles(center_x, center_y, radius)
         Récupère tous les pixels du cercle demandé
 
-    is_red_circle(self, image, circx, circy) : staticmethod
+    is_red_circle(self, image, circx, circy)
         Détecte si un rond contient du rouge
 
-    get_red_in_image(image) : staticmethod
+    get_red_in_image(image)
         Détecte le rouge de l'image et renvoi une nouvelle image modifié
 
-    is_red_circle_old(image, circx, circy): staticmethod
+    is_red_circle_old(image, circx, circy)
         Détecte si une balle est rouge
 
-    get_center_image(image) : staticmethod
+    get_center_image(image)
         Obtient la position x,y du centre de l'image
 
-    image_rescale(image, ratio) : staticmethod
+    image_rescale(image, ratio)
         Redimensionne l'image avec le ratio demandé
     """
 
     MAX_VAlUE_RGB = 255
+    MIN_RED = 190
 
     def __init__(self):
         """Constructeur de la classe
@@ -157,9 +154,9 @@ class ImageAnalyser(object):
         image_slice_green = image[:, :, 1]
         image_slice_blue = image[:, :, 2]
 
-        mask = (image_slice_red * ImageAnalyser.MAX_VAlUE_RGB > 200) & (
+        mask = (image_slice_red * ImageAnalyser.MAX_VAlUE_RGB > ImageAnalyser.MIN_RED) & (
                 image_slice_red * ImageAnalyser.MAX_VAlUE_RGB > (
-                image_slice_green * ImageAnalyser.MAX_VAlUE_RGB + image_slice_blue * ImageAnalyser.MAX_VAlUE_RGB) * 10)
+                image_slice_green * ImageAnalyser.MAX_VAlUE_RGB + image_slice_blue * ImageAnalyser.MAX_VAlUE_RGB) * 5)
         image[mask] = [0, 1, 0]
 
         return image

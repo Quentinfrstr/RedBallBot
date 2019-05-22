@@ -1,7 +1,7 @@
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera
-from streaming_output import StreamingOutput
+from api.streaming_output import StreamingOutput
 from threading import Timer
 from api.robot import Robot
 
@@ -26,14 +26,14 @@ CMD_RIGHT = 'right'
 CMD_STOP = 'stop'
 
 # Constantes de la caméra
-CAMERA_RESOLUTION = (820, 616)
+CAMERA_RESOLUTION = (640, 480)
 CAMERA_ROTATION = 180
 CAMERA_SATURATION = 60
 CAMERA_BRIGHTNESS = 40
 
 # Constantes de déplacement
 MARGIN_FORWARD = 75
-MAX_RADIUS_FOR_WIN = 190
+MAX_RADIUS_FOR_WIN = 170
 
 app = Flask(__name__)
 
