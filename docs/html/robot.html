@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>robot API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>robot</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python"># Projet : RedBallBot
+# Auteur : Quentin Forestier
+# Fichier : RedBallBot/api/robot.py
+
+__author__ = &#34;Quentin Forestier&#34;
+__copyright__ = &#34;Copyright 2019, RedBallBot2&#34;
+__version__ = &#34;1.0.0&#34;
+
+import RPi.GPIO as GPIO
+
+
+class Robot(object):
+    &#34;&#34;&#34;
+        Une classe utilisé pour les déplacements du robot
+        Une partie du code est reprise de la classe AlphaBot2
+
+        Attributes
+        ----------
+        AIN1 : int
+            pin du GPIO 1 du moteur gauche
+        AIN2 : int
+            pin du GPIO 2 du moteur gauche
+        BIN1 : int
+            pin du GPIO 1 du moteur droit
+        BIN2 : int
+            pin du GPIO 2 du moteur droit
+        ENA : int
+            pin du PWM du moteur gauche
+        ENB : int
+            pin du PWM du moteur droit
+        BUZ : int
+            pin du buzzer
+        MAX_DUTY_CICLE : int
+            Valeur maxmimum du rapport cyclique
+        MIN_DUTY_CYCLE : int
+            Valeur minimale du rapport cyclique
+        speed : int
+            Vitesse du robot
+        compensation_left : float
+            Compensation du moteur gauche
+        compensation_right : float
+            Compensation du moteur droit
+
+        Methods
+        -------
+        set_motor(self, left, right)
+            Défini le rapport cyclique du moteur droite et gauche
+        forward_with_modification(self, left, right)
+            Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+        forward(self)
+            Fait avancer le robot
+        stop(self)
+            Arrête le robot
+        backward(self)
+            Fait reculer le robot
+        left(self)
+            Fait tourné le robot vers la gauche
+        right(self)
+            Fait tourné le robot vers la droite
+        change_speed(self, new_speed)
+            Change la vitesse du robot
+        set_compensation(self, left, right)
+            Défini la compensation de puissance des moteurs pour palier au défaut matériel
+        beep_on(self):
+            Démarre le buzzer du robot
+        beep_off(self):
+            Arrête le buzzer du robot
+        gpio_cleanup()
+            Nettoye les GPIO du robot
+        __del__()
+            Nettoye les GPIO du robot à la fin du processus
+        &#34;&#34;&#34;
+
+    # Valeurs des pins reprient de la classe AlphaBot2
+    AIN1 = 12
+    AIN2 = 13
+    BIN1 = 20
+    BIN2 = 21
+    ENA = 6
+    ENB = 26
+
+    BUZ = 4
+
+    MAX_DUTY_CYCLE = 100
+    MIN_DUTY_CYCLE = -100
+
+    def __init__(self, speed=30):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        speed : int
+            La vitesse du robot
+        &#34;&#34;&#34;
+        self.speed = speed
+        self.compensation_left = 1
+        self.compensation_right = 1
+
+        # Repris de la classe AlphaBot2, fourni avec le robot
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(self.AIN1, GPIO.OUT)
+        GPIO.setup(self.AIN2, GPIO.OUT)
+        GPIO.setup(self.BIN1, GPIO.OUT)
+        GPIO.setup(self.BIN2, GPIO.OUT)
+        GPIO.setup(self.ENA, GPIO.OUT)
+        GPIO.setup(self.ENB, GPIO.OUT)
+        GPIO.setup(self.BUZ, GPIO.OUT)
+        self.PWMA = GPIO.PWM(self.ENA, 500)
+        self.PWMB = GPIO.PWM(self.ENB, 500)
+        self.PWMA.start(self.speed)
+        self.PWMB.start(self.speed)
+        self.stop()
+
+    def forward_with_modification(self, left, right):
+        &#34;&#34;&#34; Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+            afin d&#39;adapter la vitesse ou la direction
+
+        Parameters
+        ----------
+        left : int
+            Vitesse du moteur gauche
+        right : int
+            Vitesse du moteur droit
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(left * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(right * self.compensation_right)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def forward(self):
+        &#34;&#34;&#34; Fait avancer le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(self.speed * self.compensation_right)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def stop(self):
+        &#34;&#34;&#34; Fait s&#39;arrêter le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(0)
+        self.PWMB.ChangeDutyCycle(0)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def backward(self):
+        &#34;&#34;&#34; Fait reculer le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.HIGH)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.HIGH)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def left(self):
+        &#34;&#34;&#34;Fait tourner le robot vers la gauche
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.HIGH)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def right(self):
+        &#34;&#34;&#34;Fait tourner le robot vers la droite
+        Méthode reprise de la classe AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.HIGH)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def change_speed(self, new_speed):
+        &#34;&#34;&#34;Permet de modifier la vitesse du robot
+
+        Parameters
+        ----------
+        new_speed : int
+            Nouvelle vitesse du robot
+
+        &#34;&#34;&#34;
+        self.stop()
+        self.speed = float(new_speed)
+
+    def set_compensation(self, left, right):
+        &#34;&#34;&#34; Défini la compensation des moteurs
+
+        Parameters
+        ----------
+        left : float
+            Ratio de compensation du moteur gauche
+        right : float
+            Ratio de compensation du moteur droit
+
+        &#34;&#34;&#34;
+        self.stop()
+        self.compensation_right = right
+        self.compensation_left = left
+
+    @staticmethod
+    def gpio_cleanup():
+        &#34;&#34;&#34;
+        Nettoye les GPIO
+
+        &#34;&#34;&#34;
+        GPIO.cleanup()
+
+    def beep_on(self):
+        &#34;&#34;&#34;Démarre le buzzer du robot
+
+        -------
+        &#34;&#34;&#34;
+        GPIO.output(self.BUZ, GPIO.HIGH)
+
+    def beep_off(self):
+        &#34;&#34;&#34;Arrête le buzzer du robot
+
+        -------
+        &#34;&#34;&#34;
+        GPIO.output(self.BUZ, GPIO.LOW)
+
+    def __del__(self):
+        &#34;&#34;&#34;
+        Effectué lorsque le programme s&#39;arrête
+
+        &#34;&#34;&#34;
+        self.gpio_cleanup()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="robot.Robot"><code class="flex name class">
+<span>class <span class="ident">Robot</span></span>
+<span>(</span><span>speed=30)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Une classe utilisé pour les déplacements du robot
+Une partie du code est reprise de la classe AlphaBot2</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>AIN1</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du GPIO 1 du moteur gauche</dd>
+<dt><strong><code>AIN2</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du GPIO 2 du moteur gauche</dd>
+<dt><strong><code>BIN1</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du GPIO 1 du moteur droit</dd>
+<dt><strong><code>BIN2</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du GPIO 2 du moteur droit</dd>
+<dt><strong><code>ENA</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du PWM du moteur gauche</dd>
+<dt><strong><code>ENB</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du PWM du moteur droit</dd>
+<dt><strong><code>BUZ</code></strong> :&ensp;<code>int</code></dt>
+<dd>pin du buzzer</dd>
+<dt><strong><code>MAX_DUTY_CICLE</code></strong> :&ensp;<code>int</code></dt>
+<dd>Valeur maxmimum du rapport cyclique</dd>
+<dt><strong><code>MIN_DUTY_CYCLE</code></strong> :&ensp;<code>int</code></dt>
+<dd>Valeur minimale du rapport cyclique</dd>
+<dt><strong><code>speed</code></strong> :&ensp;<code>int</code></dt>
+<dd>Vitesse du robot</dd>
+<dt><strong><code>compensation_left</code></strong> :&ensp;<code>float</code></dt>
+<dd>Compensation du moteur gauche</dd>
+<dt><strong><code>compensation_right</code></strong> :&ensp;<code>float</code></dt>
+<dd>Compensation du moteur droit</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>set_motor(self, left, right)
+Défini le rapport cyclique du moteur droite et gauche
+forward_with_modification(self, left, right)
+Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+forward(self)
+Fait avancer le robot
+stop(self)
+Arrête le robot
+backward(self)
+Fait reculer le robot
+left(self)
+Fait tourné le robot vers la gauche
+right(self)
+Fait tourné le robot vers la droite
+change_speed(self, new_speed)
+Change la vitesse du robot
+set_compensation(self, left, right)
+Défini la compensation de puissance des moteurs pour palier au défaut matériel
+beep_on(self):
+Démarre le buzzer du robot
+beep_off(self):
+Arrête le buzzer du robot
+gpio_cleanup()
+Nettoye les GPIO du robot
+<strong>del</strong>()
+Nettoye les GPIO du robot à la fin du processus</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>speed</code></strong> :&ensp;<code>int</code></dt>
+<dd>La vitesse du robot</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Robot(object):
+    &#34;&#34;&#34;
+        Une classe utilisé pour les déplacements du robot
+        Une partie du code est reprise de la classe AlphaBot2
+
+        Attributes
+        ----------
+        AIN1 : int
+            pin du GPIO 1 du moteur gauche
+        AIN2 : int
+            pin du GPIO 2 du moteur gauche
+        BIN1 : int
+            pin du GPIO 1 du moteur droit
+        BIN2 : int
+            pin du GPIO 2 du moteur droit
+        ENA : int
+            pin du PWM du moteur gauche
+        ENB : int
+            pin du PWM du moteur droit
+        BUZ : int
+            pin du buzzer
+        MAX_DUTY_CICLE : int
+            Valeur maxmimum du rapport cyclique
+        MIN_DUTY_CYCLE : int
+            Valeur minimale du rapport cyclique
+        speed : int
+            Vitesse du robot
+        compensation_left : float
+            Compensation du moteur gauche
+        compensation_right : float
+            Compensation du moteur droit
+
+        Methods
+        -------
+        set_motor(self, left, right)
+            Défini le rapport cyclique du moteur droite et gauche
+        forward_with_modification(self, left, right)
+            Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+        forward(self)
+            Fait avancer le robot
+        stop(self)
+            Arrête le robot
+        backward(self)
+            Fait reculer le robot
+        left(self)
+            Fait tourné le robot vers la gauche
+        right(self)
+            Fait tourné le robot vers la droite
+        change_speed(self, new_speed)
+            Change la vitesse du robot
+        set_compensation(self, left, right)
+            Défini la compensation de puissance des moteurs pour palier au défaut matériel
+        beep_on(self):
+            Démarre le buzzer du robot
+        beep_off(self):
+            Arrête le buzzer du robot
+        gpio_cleanup()
+            Nettoye les GPIO du robot
+        __del__()
+            Nettoye les GPIO du robot à la fin du processus
+        &#34;&#34;&#34;
+
+    # Valeurs des pins reprient de la classe AlphaBot2
+    AIN1 = 12
+    AIN2 = 13
+    BIN1 = 20
+    BIN2 = 21
+    ENA = 6
+    ENB = 26
+
+    BUZ = 4
+
+    MAX_DUTY_CYCLE = 100
+    MIN_DUTY_CYCLE = -100
+
+    def __init__(self, speed=30):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        speed : int
+            La vitesse du robot
+        &#34;&#34;&#34;
+        self.speed = speed
+        self.compensation_left = 1
+        self.compensation_right = 1
+
+        # Repris de la classe AlphaBot2, fourni avec le robot
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(self.AIN1, GPIO.OUT)
+        GPIO.setup(self.AIN2, GPIO.OUT)
+        GPIO.setup(self.BIN1, GPIO.OUT)
+        GPIO.setup(self.BIN2, GPIO.OUT)
+        GPIO.setup(self.ENA, GPIO.OUT)
+        GPIO.setup(self.ENB, GPIO.OUT)
+        GPIO.setup(self.BUZ, GPIO.OUT)
+        self.PWMA = GPIO.PWM(self.ENA, 500)
+        self.PWMB = GPIO.PWM(self.ENB, 500)
+        self.PWMA.start(self.speed)
+        self.PWMB.start(self.speed)
+        self.stop()
+
+    def forward_with_modification(self, left, right):
+        &#34;&#34;&#34; Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+            afin d&#39;adapter la vitesse ou la direction
+
+        Parameters
+        ----------
+        left : int
+            Vitesse du moteur gauche
+        right : int
+            Vitesse du moteur droit
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(left * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(right * self.compensation_right)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def forward(self):
+        &#34;&#34;&#34; Fait avancer le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed * self.compensation_left)
+        self.PWMB.ChangeDutyCycle(self.speed * self.compensation_right)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def stop(self):
+        &#34;&#34;&#34; Fait s&#39;arrêter le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(0)
+        self.PWMB.ChangeDutyCycle(0)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def backward(self):
+        &#34;&#34;&#34; Fait reculer le robot
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.HIGH)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.HIGH)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def left(self):
+        &#34;&#34;&#34;Fait tourner le robot vers la gauche
+        Méthode reprise de AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.HIGH)
+        GPIO.output(self.AIN2, GPIO.LOW)
+        GPIO.output(self.BIN1, GPIO.LOW)
+        GPIO.output(self.BIN2, GPIO.HIGH)
+
+    def right(self):
+        &#34;&#34;&#34;Fait tourner le robot vers la droite
+        Méthode reprise de la classe AlphaBot2
+
+        &#34;&#34;&#34;
+        self.PWMA.ChangeDutyCycle(self.speed)
+        self.PWMB.ChangeDutyCycle(self.speed)
+        GPIO.output(self.AIN1, GPIO.LOW)
+        GPIO.output(self.AIN2, GPIO.HIGH)
+        GPIO.output(self.BIN1, GPIO.HIGH)
+        GPIO.output(self.BIN2, GPIO.LOW)
+
+    def change_speed(self, new_speed):
+        &#34;&#34;&#34;Permet de modifier la vitesse du robot
+
+        Parameters
+        ----------
+        new_speed : int
+            Nouvelle vitesse du robot
+
+        &#34;&#34;&#34;
+        self.stop()
+        self.speed = float(new_speed)
+
+    def set_compensation(self, left, right):
+        &#34;&#34;&#34; Défini la compensation des moteurs
+
+        Parameters
+        ----------
+        left : float
+            Ratio de compensation du moteur gauche
+        right : float
+            Ratio de compensation du moteur droit
+
+        &#34;&#34;&#34;
+        self.stop()
+        self.compensation_right = right
+        self.compensation_left = left
+
+    @staticmethod
+    def gpio_cleanup():
+        &#34;&#34;&#34;
+        Nettoye les GPIO
+
+        &#34;&#34;&#34;
+        GPIO.cleanup()
+
+    def beep_on(self):
+        &#34;&#34;&#34;Démarre le buzzer du robot
+
+        -------
+        &#34;&#34;&#34;
+        GPIO.output(self.BUZ, GPIO.HIGH)
+
+    def beep_off(self):
+        &#34;&#34;&#34;Arrête le buzzer du robot
+
+        -------
+        &#34;&#34;&#34;
+        GPIO.output(self.BUZ, GPIO.LOW)
+
+    def __del__(self):
+        &#34;&#34;&#34;
+        Effectué lorsque le programme s&#39;arrête
+
+        &#34;&#34;&#34;
+        self.gpio_cleanup()</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="robot.Robot.AIN1"><code class="name">var <span class="ident">AIN1</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.AIN2"><code class="name">var <span class="ident">AIN2</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.BIN1"><code class="name">var <span class="ident">BIN1</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.BIN2"><code class="name">var <span class="ident">BIN2</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.BUZ"><code class="name">var <span class="ident">BUZ</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.ENA"><code class="name">var <span class="ident">ENA</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.ENB"><code class="name">var <span class="ident">ENB</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.MAX_DUTY_CYCLE"><code class="name">var <span class="ident">MAX_DUTY_CYCLE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="robot.Robot.MIN_DUTY_CYCLE"><code class="name">var <span class="ident">MIN_DUTY_CYCLE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="robot.Robot.gpio_cleanup"><code class="name flex">
+<span>def <span class="ident">gpio_cleanup</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Nettoye les GPIO</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def gpio_cleanup():
+    &#34;&#34;&#34;
+    Nettoye les GPIO
+
+    &#34;&#34;&#34;
+    GPIO.cleanup()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="robot.Robot.backward"><code class="name flex">
+<span>def <span class="ident">backward</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait reculer le robot
+Méthode reprise de AlphaBot2</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def backward(self):
+    &#34;&#34;&#34; Fait reculer le robot
+    Méthode reprise de AlphaBot2
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(self.speed)
+    self.PWMB.ChangeDutyCycle(self.speed)
+    GPIO.output(self.AIN1, GPIO.HIGH)
+    GPIO.output(self.AIN2, GPIO.LOW)
+    GPIO.output(self.BIN1, GPIO.HIGH)
+    GPIO.output(self.BIN2, GPIO.LOW)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.beep_off"><code class="name flex">
+<span>def <span class="ident">beep_off</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Arrête le buzzer du robot</p>
+<hr></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def beep_off(self):
+    &#34;&#34;&#34;Arrête le buzzer du robot
+
+    -------
+    &#34;&#34;&#34;
+    GPIO.output(self.BUZ, GPIO.LOW)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.beep_on"><code class="name flex">
+<span>def <span class="ident">beep_on</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Démarre le buzzer du robot</p>
+<hr></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def beep_on(self):
+    &#34;&#34;&#34;Démarre le buzzer du robot
+
+    -------
+    &#34;&#34;&#34;
+    GPIO.output(self.BUZ, GPIO.HIGH)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.change_speed"><code class="name flex">
+<span>def <span class="ident">change_speed</span></span>(<span>self, new_speed)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Permet de modifier la vitesse du robot</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>new_speed</code></strong> :&ensp;<code>int</code></dt>
+<dd>Nouvelle vitesse du robot</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def change_speed(self, new_speed):
+    &#34;&#34;&#34;Permet de modifier la vitesse du robot
+
+    Parameters
+    ----------
+    new_speed : int
+        Nouvelle vitesse du robot
+
+    &#34;&#34;&#34;
+    self.stop()
+    self.speed = float(new_speed)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait avancer le robot
+Méthode reprise de AlphaBot2</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def forward(self):
+    &#34;&#34;&#34; Fait avancer le robot
+    Méthode reprise de AlphaBot2
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(self.speed * self.compensation_left)
+    self.PWMB.ChangeDutyCycle(self.speed * self.compensation_right)
+    GPIO.output(self.AIN1, GPIO.LOW)
+    GPIO.output(self.AIN2, GPIO.HIGH)
+    GPIO.output(self.BIN1, GPIO.LOW)
+    GPIO.output(self.BIN2, GPIO.HIGH)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.forward_with_modification"><code class="name flex">
+<span>def <span class="ident">forward_with_modification</span></span>(<span>self, left, right)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+afin d'adapter la vitesse ou la direction</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>left</code></strong> :&ensp;<code>int</code></dt>
+<dd>Vitesse du moteur gauche</dd>
+<dt><strong><code>right</code></strong> :&ensp;<code>int</code></dt>
+<dd>Vitesse du moteur droit</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def forward_with_modification(self, left, right):
+    &#34;&#34;&#34; Fait avancé le robot, possibilité de modifier la valeur cyclique des moteurs
+        afin d&#39;adapter la vitesse ou la direction
+
+    Parameters
+    ----------
+    left : int
+        Vitesse du moteur gauche
+    right : int
+        Vitesse du moteur droit
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(left * self.compensation_left)
+    self.PWMB.ChangeDutyCycle(right * self.compensation_right)
+    GPIO.output(self.AIN1, GPIO.LOW)
+    GPIO.output(self.AIN2, GPIO.HIGH)
+    GPIO.output(self.BIN1, GPIO.LOW)
+    GPIO.output(self.BIN2, GPIO.HIGH)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.left"><code class="name flex">
+<span>def <span class="ident">left</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait tourner le robot vers la gauche
+Méthode reprise de AlphaBot2</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def left(self):
+    &#34;&#34;&#34;Fait tourner le robot vers la gauche
+    Méthode reprise de AlphaBot2
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(self.speed)
+    self.PWMB.ChangeDutyCycle(self.speed)
+    GPIO.output(self.AIN1, GPIO.HIGH)
+    GPIO.output(self.AIN2, GPIO.LOW)
+    GPIO.output(self.BIN1, GPIO.LOW)
+    GPIO.output(self.BIN2, GPIO.HIGH)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.right"><code class="name flex">
+<span>def <span class="ident">right</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait tourner le robot vers la droite
+Méthode reprise de la classe AlphaBot2</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def right(self):
+    &#34;&#34;&#34;Fait tourner le robot vers la droite
+    Méthode reprise de la classe AlphaBot2
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(self.speed)
+    self.PWMB.ChangeDutyCycle(self.speed)
+    GPIO.output(self.AIN1, GPIO.LOW)
+    GPIO.output(self.AIN2, GPIO.HIGH)
+    GPIO.output(self.BIN1, GPIO.HIGH)
+    GPIO.output(self.BIN2, GPIO.LOW)</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.set_compensation"><code class="name flex">
+<span>def <span class="ident">set_compensation</span></span>(<span>self, left, right)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Défini la compensation des moteurs</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>left</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio de compensation du moteur gauche</dd>
+<dt><strong><code>right</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio de compensation du moteur droit</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def set_compensation(self, left, right):
+    &#34;&#34;&#34; Défini la compensation des moteurs
+
+    Parameters
+    ----------
+    left : float
+        Ratio de compensation du moteur gauche
+    right : float
+        Ratio de compensation du moteur droit
+
+    &#34;&#34;&#34;
+    self.stop()
+    self.compensation_right = right
+    self.compensation_left = left</code></pre>
+</details>
+</dd>
+<dt id="robot.Robot.stop"><code class="name flex">
+<span>def <span class="ident">stop</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fait s'arrêter le robot
+Méthode reprise de AlphaBot2</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def stop(self):
+    &#34;&#34;&#34; Fait s&#39;arrêter le robot
+    Méthode reprise de AlphaBot2
+
+    &#34;&#34;&#34;
+    self.PWMA.ChangeDutyCycle(0)
+    self.PWMB.ChangeDutyCycle(0)
+    GPIO.output(self.AIN1, GPIO.LOW)
+    GPIO.output(self.AIN2, GPIO.LOW)
+    GPIO.output(self.BIN1, GPIO.LOW)
+    GPIO.output(self.BIN2, GPIO.LOW)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="robot.Robot" href="#robot.Robot">Robot</a></code></h4>
+<ul class="">
+<li><code><a title="robot.Robot.AIN1" href="#robot.Robot.AIN1">AIN1</a></code></li>
+<li><code><a title="robot.Robot.AIN2" href="#robot.Robot.AIN2">AIN2</a></code></li>
+<li><code><a title="robot.Robot.BIN1" href="#robot.Robot.BIN1">BIN1</a></code></li>
+<li><code><a title="robot.Robot.BIN2" href="#robot.Robot.BIN2">BIN2</a></code></li>
+<li><code><a title="robot.Robot.BUZ" href="#robot.Robot.BUZ">BUZ</a></code></li>
+<li><code><a title="robot.Robot.ENA" href="#robot.Robot.ENA">ENA</a></code></li>
+<li><code><a title="robot.Robot.ENB" href="#robot.Robot.ENB">ENB</a></code></li>
+<li><code><a title="robot.Robot.MAX_DUTY_CYCLE" href="#robot.Robot.MAX_DUTY_CYCLE">MAX_DUTY_CYCLE</a></code></li>
+<li><code><a title="robot.Robot.MIN_DUTY_CYCLE" href="#robot.Robot.MIN_DUTY_CYCLE">MIN_DUTY_CYCLE</a></code></li>
+<li><code><a title="robot.Robot.backward" href="#robot.Robot.backward">backward</a></code></li>
+<li><code><a title="robot.Robot.beep_off" href="#robot.Robot.beep_off">beep_off</a></code></li>
+<li><code><a title="robot.Robot.beep_on" href="#robot.Robot.beep_on">beep_on</a></code></li>
+<li><code><a title="robot.Robot.change_speed" href="#robot.Robot.change_speed">change_speed</a></code></li>
+<li><code><a title="robot.Robot.forward" href="#robot.Robot.forward">forward</a></code></li>
+<li><code><a title="robot.Robot.forward_with_modification" href="#robot.Robot.forward_with_modification">forward_with_modification</a></code></li>
+<li><code><a title="robot.Robot.gpio_cleanup" href="#robot.Robot.gpio_cleanup">gpio_cleanup</a></code></li>
+<li><code><a title="robot.Robot.left" href="#robot.Robot.left">left</a></code></li>
+<li><code><a title="robot.Robot.right" href="#robot.Robot.right">right</a></code></li>
+<li><code><a title="robot.Robot.set_compensation" href="#robot.Robot.set_compensation">set_compensation</a></code></li>
+<li><code><a title="robot.Robot.stop" href="#robot.Robot.stop">stop</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

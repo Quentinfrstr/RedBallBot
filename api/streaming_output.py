@@ -1,3 +1,11 @@
+# Projet : RedBallBot
+# Auteur : Quentin Forestier
+# Fichier : RedBallBot/api/streaming_output.py
+
+__author__ = "Quentin Forestier"
+__copyright__ = "Copyright 2019, RedBallBot2"
+__version__ = "1.0.0"
+
 import io
 import requests
 from threading import Condition

@@ -1,3 +1,11 @@
+# Projet : RedBallBot
+# Auteur : Quentin Forestier
+# Fichier : RedBallBot/api/robot_controller.py
+
+__author__ = "Quentin Forestier"
+__copyright__ = "Copyright 2019, RedBallBot2"
+__version__ = "1.0.0"
+
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera

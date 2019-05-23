@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.2" />
+<title>analyser_controller API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>analyser_controller</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python"># Projet : RedBallBot
+# Auteur : Quentin Forestier
+# Fichier : RedBallBot/api/analyser_controller.py
+
+__author__ = &#34;Quentin Forestier&#34;
+__copyright__ = &#34;Copyright 2019, RedBallBot2&#34;
+__version__ = &#34;1.0.0&#34;
+
+import requests
+import sys
+from image_analyser import ImageAnalyser
+from skimage import io as scikit_io
+from datetime import datetime
+
+
+class AnalyserController(object):
+    &#34;&#34;&#34;
+        Une classe utilisé pour l&#39;analyse d&#39;image
+
+        Attributes
+        ----------
+        URL_GET_IMAGE : str
+            URL sur le serveur pour récupérer l&#39;image
+        URL_SET_BALL_INFOS : str
+            URL sur le serveur pour définir les nouvelles informations de la balle
+        BALL_NOT_FOUND : str
+            chaine de caractère définissant si la balle a été trouvée
+        MIN_RADIUS : int
+            Rayon minimum des cercles
+        MAX_RADIUS : int
+            Rayon maximum des cercles
+        NUMBER_BEST_CIRCLE : int
+            Nombre de cercles à obtenir par analyse
+        STEP_RADIUS : int
+            Nombre de pixel entre chaque rayon
+        RATIO_RESCALE : float
+            Ratio de redimmensionnement d&#39;image
+        analyser : ImageAnalyser
+            Objet permettant l&#39;analyse d&#39;image
+        url_robot : str
+            URL du serveur
+        possible_circle : list
+            La liste de tous les cercles rouges dans la dernière image analysée.
+        Methods
+        -------
+        get_most_likely_circle(self)
+            Obtient le cercle le plus grand de la liste
+        get_last_image(self)
+            Récupère la dernière image capturée par la caméra du robot
+            Transforme l&#39;image en ndarray
+            Redimensionne l&#39;image pour un traitement plus rapide
+        send_ball_infos(self, ball_infos_to_send)
+            Envoi les informations de la balle obbtenus par l&#39;analyse
+        check_possible_circles(self, image_to_check)
+            Analyse les différents cercles présents sur l&#39;image
+        &#34;&#34;&#34;
+
+    # Constantes pour les requêtes
+    URL_GET_IMAGE = &#39;/get_image&#39;
+    URL_SET_BALL_INFOS = &#39;/set_ball_infos/&#39;
+    BALL_NOT_FOUND = &#39;None&#39;
+
+    # Constantes pour l&#39;analyses d&#39;images
+    MIN_RADIUS = 5
+    MAX_RADIUS = 80
+    NUMBER_BEST_CIRCLE = 5
+    STEP_RADIUS = 1
+    RATIO_RESCALE = 0.1
+
+    analyser = ImageAnalyser()
+
+    def __init__(self, url):
+        &#34;&#34;&#34; Constructeur de la classe
+
+        Parameters
+        ----------
+        url : str
+            URL du robot à controler
+        &#34;&#34;&#34;
+        self.url_robot = url
+        self.possible_circle = []
+
+    def get_most_likely_circle(self):
+        &#34;&#34;&#34;Obtient le cercle le plus grand de la liste.
+
+        Returns
+        -------
+        tuple
+            Le centre et le rayon du cercle le plus probable
+        &#34;&#34;&#34;
+
+        # Valeur exagérée pour qu&#39;il y est obligatoirement un cercle plus proche
+        right_circle = (0, 0, 0)
+        for c in self.possible_circle:
+            if c[2] &gt;= right_circle[2]:
+                right_circle = c
+
+        return right_circle
+
+    def get_last_image(self):
+        &#34;&#34;&#34;Récupère la dernière image capturé par la caméra du robot
+        Transforme l&#39;image en ndarray
+        Redimensionne l&#39;image pour un traitement plus rapide
+
+        Returns
+        -------
+        ndarray
+            Image reçue
+        &#34;&#34;&#34;
+        image_received = None
+
+        try:
+            image_received = scikit_io.imread(self.url_robot + self.URL_GET_IMAGE)
+            image_received = self.analyser.image_rescale(image=image_received, ratio=self.RATIO_RESCALE)
+        except requests.exceptions.ConnectionError:
+            print(&#39;Connexion au serveur impossible&#39;)
+
+        return image_received
+
+    def send_ball_infos(self, ball_infos_to_send):
+        &#34;&#34;&#34;Envoi les informations de la balle obbtenus par l&#39;analyse
+
+        Parameters
+        ----------
+        ball_infos_to_send : tuple
+            Informations de la balle à envoyer
+
+        Returns
+        -------
+        str
+            Informations à envoyer au roboz
+        &#34;&#34;&#34;
+        try:
+            if ball_infos_to_send == self.BALL_NOT_FOUND:
+                requests.get(self.url_robot + self.URL_SET_BALL_INFOS + ball_infos_to_send)
+            else:
+
+                result = str(int(ball_infos_to_send[0] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                    int(ball_infos_to_send[1] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                    int(ball_infos_to_send[2] / self.RATIO_RESCALE))
+                print(result)
+                requests.get(self.url_robot + self.URL_SET_BALL_INFOS + result)
+        except requests.exceptions.ConnectionError:
+            print(&#39;Serveur indisponible&#39;)
+
+    def check_possible_circles(self, image_to_check):
+        &#34;&#34;&#34;Analyse les différents cercles présents sur l&#39;image
+        Garde seulement les rouges
+
+        Parameters
+        ----------
+        image_to_check : ndarray
+            Image à analyser
+
+        Returns
+        -------
+        list
+            Contient tous les cercles possibles
+
+        &#34;&#34;&#34;
+        kept_circles = []
+        image_red_detected = self.analyser.get_red_in_image(image_to_check)
+        for center_x, center_y, radius in self.analyser.get_circle_center(
+                image=image_to_check, min_radius=self.MIN_RADIUS, max_radius=self.MAX_RADIUS,
+                number_best_circle=self.NUMBER_BEST_CIRCLE,
+                step_radius=self.STEP_RADIUS):
+            circy, circx = self.analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
+
+            if self.analyser.is_red_circle(image=image_red_detected, circx=circx, circy=circy):
+                kept_circles.append((center_x, center_y, radius))
+
+        return kept_circles
+
+
+if __name__ == &#39;__main__&#39;:
+    controller = AnalyserController(sys.argv[1])
+    while True:
+        elapsed_time = datetime.now()
+        last_circle = (0, 0, 0)
+        controller.possible_circle = []
+
+        image = controller.get_last_image()
+        if image is not None:
+            controller.possible_circle = controller.check_possible_circles(image)
+
+        if len(controller.possible_circle) == 0:
+            controller.send_ball_infos(controller.BALL_NOT_FOUND)
+        else:
+            last_circle = controller.get_most_likely_circle()
+            controller.send_ball_infos(last_circle)
+
+        print(datetime.now() - elapsed_time)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="analyser_controller.AnalyserController"><code class="flex name class">
+<span>class <span class="ident">AnalyserController</span></span>
+<span>(</span><span>url)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Une classe utilisé pour l'analyse d'image</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>URL_GET_IMAGE</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL sur le serveur pour récupérer l'image</dd>
+<dt><strong><code>URL_SET_BALL_INFOS</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL sur le serveur pour définir les nouvelles informations de la balle</dd>
+<dt><strong><code>BALL_NOT_FOUND</code></strong> :&ensp;<code>str</code></dt>
+<dd>chaine de caractère définissant si la balle a été trouvée</dd>
+<dt><strong><code>MIN_RADIUS</code></strong> :&ensp;<code>int</code></dt>
+<dd>Rayon minimum des cercles</dd>
+<dt><strong><code>MAX_RADIUS</code></strong> :&ensp;<code>int</code></dt>
+<dd>Rayon maximum des cercles</dd>
+<dt><strong><code>NUMBER_BEST_CIRCLE</code></strong> :&ensp;<code>int</code></dt>
+<dd>Nombre de cercles à obtenir par analyse</dd>
+<dt><strong><code>STEP_RADIUS</code></strong> :&ensp;<code>int</code></dt>
+<dd>Nombre de pixel entre chaque rayon</dd>
+<dt><strong><code>RATIO_RESCALE</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio de redimmensionnement d'image</dd>
+<dt><strong><code>analyser</code></strong> :&ensp;<code>ImageAnalyser</code></dt>
+<dd>Objet permettant l'analyse d'image</dd>
+<dt><strong><code>url_robot</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL du serveur</dd>
+<dt><strong><code>possible_circle</code></strong> :&ensp;<code>list</code></dt>
+<dd>La liste de tous les cercles rouges dans la dernière image analysée.</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>get_most_likely_circle(self)
+Obtient le cercle le plus grand de la liste
+get_last_image(self)
+Récupère la dernière image capturée par la caméra du robot
+Transforme l'image en ndarray
+Redimensionne l'image pour un traitement plus rapide
+send_ball_infos(self, ball_infos_to_send)
+Envoi les informations de la balle obbtenus par l'analyse
+check_possible_circles(self, image_to_check)
+Analyse les différents cercles présents sur l'image</p>
+<p>Constructeur de la classe</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL du robot à controler</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class AnalyserController(object):
+    &#34;&#34;&#34;
+        Une classe utilisé pour l&#39;analyse d&#39;image
+
+        Attributes
+        ----------
+        URL_GET_IMAGE : str
+            URL sur le serveur pour récupérer l&#39;image
+        URL_SET_BALL_INFOS : str
+            URL sur le serveur pour définir les nouvelles informations de la balle
+        BALL_NOT_FOUND : str
+            chaine de caractère définissant si la balle a été trouvée
+        MIN_RADIUS : int
+            Rayon minimum des cercles
+        MAX_RADIUS : int
+            Rayon maximum des cercles
+        NUMBER_BEST_CIRCLE : int
+            Nombre de cercles à obtenir par analyse
+        STEP_RADIUS : int
+            Nombre de pixel entre chaque rayon
+        RATIO_RESCALE : float
+            Ratio de redimmensionnement d&#39;image
+        analyser : ImageAnalyser
+            Objet permettant l&#39;analyse d&#39;image
+        url_robot : str
+            URL du serveur
+        possible_circle : list
+            La liste de tous les cercles rouges dans la dernière image analysée.
+        Methods
+        -------
+        get_most_likely_circle(self)
+            Obtient le cercle le plus grand de la liste
+        get_last_image(self)
+            Récupère la dernière image capturée par la caméra du robot
+            Transforme l&#39;image en ndarray
+            Redimensionne l&#39;image pour un traitement plus rapide
+        send_ball_infos(self, ball_infos_to_send)
+            Envoi les informations de la balle obbtenus par l&#39;analyse
+        check_possible_circles(self, image_to_check)
+            Analyse les différents cercles présents sur l&#39;image
+        &#34;&#34;&#34;
+
+    # Constantes pour les requêtes
+    URL_GET_IMAGE = &#39;/get_image&#39;
+    URL_SET_BALL_INFOS = &#39;/set_ball_infos/&#39;
+    BALL_NOT_FOUND = &#39;None&#39;
+
+    # Constantes pour l&#39;analyses d&#39;images
+    MIN_RADIUS = 5
+    MAX_RADIUS = 80
+    NUMBER_BEST_CIRCLE = 5
+    STEP_RADIUS = 1
+    RATIO_RESCALE = 0.1
+
+    analyser = ImageAnalyser()
+
+    def __init__(self, url):
+        &#34;&#34;&#34; Constructeur de la classe
+
+        Parameters
+        ----------
+        url : str
+            URL du robot à controler
+        &#34;&#34;&#34;
+        self.url_robot = url
+        self.possible_circle = []
+
+    def get_most_likely_circle(self):
+        &#34;&#34;&#34;Obtient le cercle le plus grand de la liste.
+
+        Returns
+        -------
+        tuple
+            Le centre et le rayon du cercle le plus probable
+        &#34;&#34;&#34;
+
+        # Valeur exagérée pour qu&#39;il y est obligatoirement un cercle plus proche
+        right_circle = (0, 0, 0)
+        for c in self.possible_circle:
+            if c[2] &gt;= right_circle[2]:
+                right_circle = c
+
+        return right_circle
+
+    def get_last_image(self):
+        &#34;&#34;&#34;Récupère la dernière image capturé par la caméra du robot
+        Transforme l&#39;image en ndarray
+        Redimensionne l&#39;image pour un traitement plus rapide
+
+        Returns
+        -------
+        ndarray
+            Image reçue
+        &#34;&#34;&#34;
+        image_received = None
+
+        try:
+            image_received = scikit_io.imread(self.url_robot + self.URL_GET_IMAGE)
+            image_received = self.analyser.image_rescale(image=image_received, ratio=self.RATIO_RESCALE)
+        except requests.exceptions.ConnectionError:
+            print(&#39;Connexion au serveur impossible&#39;)
+
+        return image_received
+
+    def send_ball_infos(self, ball_infos_to_send):
+        &#34;&#34;&#34;Envoi les informations de la balle obbtenus par l&#39;analyse
+
+        Parameters
+        ----------
+        ball_infos_to_send : tuple
+            Informations de la balle à envoyer
+
+        Returns
+        -------
+        str
+            Informations à envoyer au roboz
+        &#34;&#34;&#34;
+        try:
+            if ball_infos_to_send == self.BALL_NOT_FOUND:
+                requests.get(self.url_robot + self.URL_SET_BALL_INFOS + ball_infos_to_send)
+            else:
+
+                result = str(int(ball_infos_to_send[0] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                    int(ball_infos_to_send[1] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                    int(ball_infos_to_send[2] / self.RATIO_RESCALE))
+                print(result)
+                requests.get(self.url_robot + self.URL_SET_BALL_INFOS + result)
+        except requests.exceptions.ConnectionError:
+            print(&#39;Serveur indisponible&#39;)
+
+    def check_possible_circles(self, image_to_check):
+        &#34;&#34;&#34;Analyse les différents cercles présents sur l&#39;image
+        Garde seulement les rouges
+
+        Parameters
+        ----------
+        image_to_check : ndarray
+            Image à analyser
+
+        Returns
+        -------
+        list
+            Contient tous les cercles possibles
+
+        &#34;&#34;&#34;
+        kept_circles = []
+        image_red_detected = self.analyser.get_red_in_image(image_to_check)
+        for center_x, center_y, radius in self.analyser.get_circle_center(
+                image=image_to_check, min_radius=self.MIN_RADIUS, max_radius=self.MAX_RADIUS,
+                number_best_circle=self.NUMBER_BEST_CIRCLE,
+                step_radius=self.STEP_RADIUS):
+            circy, circx = self.analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
+
+            if self.analyser.is_red_circle(image=image_red_detected, circx=circx, circy=circy):
+                kept_circles.append((center_x, center_y, radius))
+
+        return kept_circles</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="analyser_controller.AnalyserController.BALL_NOT_FOUND"><code class="name">var <span class="ident">BALL_NOT_FOUND</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.MAX_RADIUS"><code class="name">var <span class="ident">MAX_RADIUS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.MIN_RADIUS"><code class="name">var <span class="ident">MIN_RADIUS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.NUMBER_BEST_CIRCLE"><code class="name">var <span class="ident">NUMBER_BEST_CIRCLE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.RATIO_RESCALE"><code class="name">var <span class="ident">RATIO_RESCALE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.STEP_RADIUS"><code class="name">var <span class="ident">STEP_RADIUS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.URL_GET_IMAGE"><code class="name">var <span class="ident">URL_GET_IMAGE</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.URL_SET_BALL_INFOS"><code class="name">var <span class="ident">URL_SET_BALL_INFOS</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="analyser_controller.AnalyserController.analyser"><code class="name">var <span class="ident">analyser</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="analyser_controller.AnalyserController.check_possible_circles"><code class="name flex">
+<span>def <span class="ident">check_possible_circles</span></span>(<span>self, image_to_check)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Analyse les différents cercles présents sur l'image
+Garde seulement les rouges</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>image_to_check</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>Image à analyser</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>Contient tous les cercles possibles</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def check_possible_circles(self, image_to_check):
+    &#34;&#34;&#34;Analyse les différents cercles présents sur l&#39;image
+    Garde seulement les rouges
+
+    Parameters
+    ----------
+    image_to_check : ndarray
+        Image à analyser
+
+    Returns
+    -------
+    list
+        Contient tous les cercles possibles
+
+    &#34;&#34;&#34;
+    kept_circles = []
+    image_red_detected = self.analyser.get_red_in_image(image_to_check)
+    for center_x, center_y, radius in self.analyser.get_circle_center(
+            image=image_to_check, min_radius=self.MIN_RADIUS, max_radius=self.MAX_RADIUS,
+            number_best_circle=self.NUMBER_BEST_CIRCLE,
+            step_radius=self.STEP_RADIUS):
+        circy, circx = self.analyser.get_pixels_circles(center_y=center_y, center_x=center_x, radius=radius)
+
+        if self.analyser.is_red_circle(image=image_red_detected, circx=circx, circy=circy):
+            kept_circles.append((center_x, center_y, radius))
+
+    return kept_circles</code></pre>
+</details>
+</dd>
+<dt id="analyser_controller.AnalyserController.get_last_image"><code class="name flex">
+<span>def <span class="ident">get_last_image</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Récupère la dernière image capturé par la caméra du robot
+Transforme l'image en ndarray
+Redimensionne l'image pour un traitement plus rapide</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ndarray</code></dt>
+<dd>Image reçue</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_last_image(self):
+    &#34;&#34;&#34;Récupère la dernière image capturé par la caméra du robot
+    Transforme l&#39;image en ndarray
+    Redimensionne l&#39;image pour un traitement plus rapide
+
+    Returns
+    -------
+    ndarray
+        Image reçue
+    &#34;&#34;&#34;
+    image_received = None
+
+    try:
+        image_received = scikit_io.imread(self.url_robot + self.URL_GET_IMAGE)
+        image_received = self.analyser.image_rescale(image=image_received, ratio=self.RATIO_RESCALE)
+    except requests.exceptions.ConnectionError:
+        print(&#39;Connexion au serveur impossible&#39;)
+
+    return image_received</code></pre>
+</details>
+</dd>
+<dt id="analyser_controller.AnalyserController.get_most_likely_circle"><code class="name flex">
+<span>def <span class="ident">get_most_likely_circle</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Obtient le cercle le plus grand de la liste.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code></dt>
+<dd>Le centre et le rayon du cercle le plus probable</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_most_likely_circle(self):
+    &#34;&#34;&#34;Obtient le cercle le plus grand de la liste.
+
+    Returns
+    -------
+    tuple
+        Le centre et le rayon du cercle le plus probable
+    &#34;&#34;&#34;
+
+    # Valeur exagérée pour qu&#39;il y est obligatoirement un cercle plus proche
+    right_circle = (0, 0, 0)
+    for c in self.possible_circle:
+        if c[2] &gt;= right_circle[2]:
+            right_circle = c
+
+    return right_circle</code></pre>
+</details>
+</dd>
+<dt id="analyser_controller.AnalyserController.send_ball_infos"><code class="name flex">
+<span>def <span class="ident">send_ball_infos</span></span>(<span>self, ball_infos_to_send)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Envoi les informations de la balle obbtenus par l'analyse</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ball_infos_to_send</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Informations de la balle à envoyer</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Informations à envoyer au roboz</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def send_ball_infos(self, ball_infos_to_send):
+    &#34;&#34;&#34;Envoi les informations de la balle obbtenus par l&#39;analyse
+
+    Parameters
+    ----------
+    ball_infos_to_send : tuple
+        Informations de la balle à envoyer
+
+    Returns
+    -------
+    str
+        Informations à envoyer au roboz
+    &#34;&#34;&#34;
+    try:
+        if ball_infos_to_send == self.BALL_NOT_FOUND:
+            requests.get(self.url_robot + self.URL_SET_BALL_INFOS + ball_infos_to_send)
+        else:
+
+            result = str(int(ball_infos_to_send[0] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                int(ball_infos_to_send[1] / self.RATIO_RESCALE)) + &#39;;&#39; + str(
+                int(ball_infos_to_send[2] / self.RATIO_RESCALE))
+            print(result)
+            requests.get(self.url_robot + self.URL_SET_BALL_INFOS + result)
+    except requests.exceptions.ConnectionError:
+        print(&#39;Serveur indisponible&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="analyser_controller.AnalyserController" href="#analyser_controller.AnalyserController">AnalyserController</a></code></h4>
+<ul class="">
+<li><code><a title="analyser_controller.AnalyserController.BALL_NOT_FOUND" href="#analyser_controller.AnalyserController.BALL_NOT_FOUND">BALL_NOT_FOUND</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.MAX_RADIUS" href="#analyser_controller.AnalyserController.MAX_RADIUS">MAX_RADIUS</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.MIN_RADIUS" href="#analyser_controller.AnalyserController.MIN_RADIUS">MIN_RADIUS</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.NUMBER_BEST_CIRCLE" href="#analyser_controller.AnalyserController.NUMBER_BEST_CIRCLE">NUMBER_BEST_CIRCLE</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.RATIO_RESCALE" href="#analyser_controller.AnalyserController.RATIO_RESCALE">RATIO_RESCALE</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.STEP_RADIUS" href="#analyser_controller.AnalyserController.STEP_RADIUS">STEP_RADIUS</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.URL_GET_IMAGE" href="#analyser_controller.AnalyserController.URL_GET_IMAGE">URL_GET_IMAGE</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.URL_SET_BALL_INFOS" href="#analyser_controller.AnalyserController.URL_SET_BALL_INFOS">URL_SET_BALL_INFOS</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.analyser" href="#analyser_controller.AnalyserController.analyser">analyser</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.check_possible_circles" href="#analyser_controller.AnalyserController.check_possible_circles">check_possible_circles</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.get_last_image" href="#analyser_controller.AnalyserController.get_last_image">get_last_image</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.get_most_likely_circle" href="#analyser_controller.AnalyserController.get_most_likely_circle">get_most_likely_circle</a></code></li>
+<li><code><a title="analyser_controller.AnalyserController.send_ball_infos" href="#analyser_controller.AnalyserController.send_ball_infos">send_ball_infos</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

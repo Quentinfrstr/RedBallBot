@@ -1,8 +1,17 @@
+# Projet : RedBallBot
+# Auteur : Quentin Forestier
+# Fichier : RedBallBot/api/analyser_controller.py
+
+__author__ = "Quentin Forestier"
+__copyright__ = "Copyright 2019, RedBallBot2"
+__version__ = "1.0.0"
+
 import requests
 import sys
 from image_analyser import ImageAnalyser
 from skimage import io as scikit_io
 from datetime import datetime
+
 
 class AnalyserController(object):
     """

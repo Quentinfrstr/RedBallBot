@@ -1,3 +1,8 @@
+<!-->
+Projet : RedBallBot
+Auteur : Quentin Forestier
+Version : 1.0.0
+<-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -113,12 +118,14 @@
     const URL_SERVEUR = "http://192.168.137.40:5000";
     let xhttp = new XMLHttpRequest();
 
+	// Envoie les commandes au robot
     function send_cmd(cmd) {
 
         xhttp.open('GET', URL_SERVEUR+'/send_cmd/' + cmd);
         xhttp.send()
     }
-
+	
+	// Envoie la nouvelle vitesse au robot
     function send_new_speed(new_speed) {
 
         xhttp.open('GET', URL_SERVEUR+'/change_speed/' + new_speed);
@@ -126,7 +133,8 @@
 
         document.getElementById('lblSpeed').innerText = "Vitesse : " + new_speed;
     }
-
+	
+	// Envoie les nouvelles valeurs de compensations
     function send_new_compensation(new_compensation) {
         let compensationLeft = (1 - new_compensation / 10).toFixed(2);
         let compensationRight = (1 + new_compensation / 10).toFixed(2);
@@ -139,6 +147,7 @@
         document.getElementById('compensationRight').innerText = "Droite " + compensationRight;
     }
 
+	// Envoie le nouveau mode de déplacement
     function send_new_mode(new_mode) {
         xhttp.open('GET', URL_SERVEUR+'/set_robot_mode/' + new_mode);
         xhttp.send();
