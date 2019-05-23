@@ -1,6 +1,6 @@
 # RedBallBot
 
-######Auteur : Quentin Forestier
+####Auteur : Quentin Forestier
 
 
 `Résumé du travail :` RedBallBot est un robot qui cherche et se colle à une balle rouge.

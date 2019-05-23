@@ -1,9 +1,9 @@
 from flask import Flask, send_file, render_template, Response
 
 from picamera import PiCamera
-from api.streaming_output import StreamingOutput
+from streaming_output import StreamingOutput
 from threading import Timer
-from api.robot import Robot
+from robot import Robot
 
 import io
 

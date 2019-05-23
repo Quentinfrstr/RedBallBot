@@ -110,17 +110,18 @@
 </div>
 
 <script>
+    const URL_SERVEUR = "http://192.168.137.40:5000";
     let xhttp = new XMLHttpRequest();
 
     function send_cmd(cmd) {
 
-        xhttp.open('GET', 'http://192.168.137.40:5000/send_cmd/' + cmd);
+        xhttp.open('GET', URL_SERVEUR+'/send_cmd/' + cmd);
         xhttp.send()
     }
 
     function send_new_speed(new_speed) {
 
-        xhttp.open('GET', 'http://192.168.137.40:5000/change_speed/' + new_speed);
+        xhttp.open('GET', URL_SERVEUR+'/change_speed/' + new_speed);
         xhttp.send();
 
         document.getElementById('lblSpeed').innerText = "Vitesse : " + new_speed;
@@ -132,14 +133,14 @@
 
         let compensations = compensationLeft + ';' + compensationRight;
 
-        xhttp.open('GET', 'http://192.168.137.40:5000/set_compensation/' + compensations);
+        xhttp.open('GET', URL_SERVEUR+'/set_compensation/' + compensations);
         xhttp.send();
         document.getElementById('compensationLeft').innerText = "Gauche " + compensationLeft;
         document.getElementById('compensationRight').innerText = "Droite " + compensationRight;
     }
 
     function send_new_mode(new_mode) {
-        xhttp.open('GET', 'http://192.168.137.40:5000/set_robot_mode/' + new_mode);
+        xhttp.open('GET', URL_SERVEUR+'/set_robot_mode/' + new_mode);
         xhttp.send();
     }
 

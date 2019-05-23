@@ -1,6 +1,6 @@
 import requests
 import sys
-from api.image_analyser import ImageAnalyser
+from image_analyser import ImageAnalyser
 from skimage import io as scikit_io
 from datetime import datetime
 
